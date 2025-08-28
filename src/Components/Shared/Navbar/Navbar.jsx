@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { FaCarSide } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,7 +29,7 @@ export default function Navbar() {
           : { width: "100%", borderRadius: 0, marginTop: 0 }
       }
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 mx-auto bg-white/60 backdrop-blur-md shadow-md px-6 py-3 flex items-center justify-between z-50"
+      className="fixed top-0 left-0 right-0 mx-auto bg-white/60 backdrop-blur-md px-6 py-3 flex items-center justify-between z-50"
       // style={{ maxWidth: "1200px" }}
     >
       {/* Logo + Title */}
@@ -49,7 +50,7 @@ export default function Navbar() {
 
       {/* Links */}
       <div className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
-        <a href="#">Home</a>
+        <Link href="/">Home</Link>
         <a href="#">Rides</a>
         <a href="#">My Bookings</a>
       </div>
@@ -77,14 +78,14 @@ export default function Navbar() {
       {/* Right Side */}
       <div className="flex items-center gap-4">
         <a
-          href="#"
+          href="/dashboard"
           className="text-gray-700 font-medium hover:text-blue-600 hidden md:inline"
         >
           Dashboard
         </a>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium">
+        <Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium">
           Login
-        </button>
+        </Link>
         <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
           <span className="text-sm font-bold text-gray-700">KH</span>
         </div>
