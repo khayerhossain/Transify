@@ -52,7 +52,7 @@ export default function Navbar() {
       {/* Links */}
       <div className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
         <Link href="/">Home</Link>
-        <a href="#">Rides</a>
+        <a href="be-a-rider">Be a Rider</a>
         <a href="#">My Bookings</a>
       </div>
 

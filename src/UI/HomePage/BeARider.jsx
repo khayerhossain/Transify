@@ -8,11 +8,11 @@ export default function BecomeDeliveryMan() {
     <section className="bg-gray-50 py-16">
       <Container>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between bg-white rounded-3xl shadow-xl overflow-hidden">
+          <div className="flex flex-col-reverse md:flex-row items-center justify-between bg-white rounded-3xl shadow-xl overflow-hidden">
             {/* Left Content */}
             <div className="md:w-1/2 p-10 flex flex-col justify-center h-full">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Become a <span className="text-red-500">Delivery Partner</span>
+                Become a <span className="text-red-500">Rider</span>
               </h2>
               <p className="text-gray-600 mb-6">
                 Join our team and start earning by delivering parcels in your
