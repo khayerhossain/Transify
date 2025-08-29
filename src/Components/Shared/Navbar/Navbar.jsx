@@ -34,8 +34,9 @@ export default function Navbar() {
     >
       {/* Logo + Title */}
       <div className="flex items-center gap-2">
-        <span className="text-2xl font-bold"><FaCarSide />
-</span>
+        <span className="text-2xl font-bold">
+          <FaCarSide />
+        </span>
         {!isScrolled && (
           <motion.span
             initial={{ opacity: 0 }}
@@ -83,7 +84,10 @@ export default function Navbar() {
         >
           Dashboard
         </a>
-        <Link href="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium">
+        <Link
+          href="/login"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium"
+        >
           Login
         </Link>
         <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
