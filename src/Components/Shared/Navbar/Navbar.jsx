@@ -29,7 +29,7 @@ export default function Navbar() {
           : { width: "100%", borderRadius: 0, marginTop: 0 }
       }
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 mx-auto bg-white/60 backdrop-blur-md px-6 py-3 flex items-center justify-between z-50"
+      className="fixed top-0 left-0 right-0 mx-auto bg-white/60 backdrop-blur-md px-6 py-3 flex items-center justify-between z-50 "
       // style={{ maxWidth: "1200px" }}
     >
       {/* Logo + Title */}
