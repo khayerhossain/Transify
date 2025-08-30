@@ -1,4 +1,4 @@
-import Container from "@/Components/Shared/Container/Container";
+import Container from "../../Components/Shared/Container/Container";
 import { Truck, Package, Clock, MapPin, Shield, Phone } from "lucide-react";
 
 export default function OurServices() {

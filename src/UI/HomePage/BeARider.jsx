@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Rider from "../../assets/become-a-rider.jpeg";
-import Container from "@/Components/Shared/Container/Container";
+import Container from "../../Components/Shared/Container/Container";
 
 export default function BecomeDeliveryMan() {
   return (
@@ -19,7 +19,7 @@ export default function BecomeDeliveryMan() {
                 city. Flexible hours, supportive team, and instant payouts.
               </p>
               <Link
-                href="/become-delivery"
+                href="/be-a-rider"
                 className="inline-block px-6 py-3 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition cursor-pointer text-center w-full md:w-auto"
               >
                 Join Now

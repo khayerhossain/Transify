@@ -1,4 +1,4 @@
-import Container from "@/Components/Shared/Container/Container";
+import Container from "../../Components/Shared/Container/Container";
 
 export default function NewsletterSection() {
   return (

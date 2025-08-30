@@ -53,7 +53,8 @@ export default function Navbar() {
       <div className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
         <Link href="/">Home</Link>
         <a href="be-a-rider">Be a Rider</a>
-        <a href="#">My Bookings</a>
+        <a href="/pricing">Pricing</a>
+        <a href="#">Track</a>
       </div>
 
       {/* Search (Glass style, shrink when scrolled) */}

@@ -2,7 +2,8 @@
 import { Package, ArrowRight, Info } from "lucide-react";
 import Lottie from "lottie-react";
 import bikeRider from "../../assets/delivery-guy.json";
-import Container from "@/Components/Shared/Container/Container";
+import Container from "../../Components/Shared/Container/Container";
+import Link from "next/link";
 
 export default function CourierHeroSection() {
   return (
@@ -47,13 +48,13 @@ export default function CourierHeroSection() {
 
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <button className="group bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-4 rounded-2xl text-white font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                    <Link href="/pricing" className="group bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-4 rounded-2xl text-white font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                       <span className="flex items-center justify-center space-x-2">
                         <Package className="w-5 h-5" />
                         <span>Book Delivery</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </span>
-                    </button>
+                    </Link>
 
                     <button className="backdrop-blur-md bg-white/70 border border-red-200 px-8 py-4 rounded-2xl text-red-600 font-semibold hover:bg-white transition-all shadow-lg">
                       <span className="flex items-center justify-center space-x-2">

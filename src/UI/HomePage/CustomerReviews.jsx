@@ -5,7 +5,7 @@ import { Navigation } from "swiper/modules";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
-import Container from "@/Components/Shared/Container/Container";
+import Container from "../../Components/Shared/Container/Container";
 
 export default function CustomerReviews() {
   const swiperRef = useRef(null);

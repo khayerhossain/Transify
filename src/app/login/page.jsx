@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Eye, EyeOff, Car, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { FaBoxOpen } from "react-icons/fa";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,15 +32,6 @@ const LoginPage = () => {
         <div className="absolute top-1/2 left-1/2 w-32 h-32 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gray-150 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-4000"></div>
       </div>
 
-      {/* Floating car icons */}
-
-      {/* <div className="absolute inset-0 pointer-events-none">
-        <Car className="absolute top-10 left-4 sm:top-20 sm:left-20 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-gray-300 animate-bounce animation-delay-1000" />
-        <Car className="absolute top-20 right-8 sm:top-40 sm:right-32 w-3 h-3 sm:w-4 sm:h-4 lg:w-6 lg:h-6 text-gray-300 animate-bounce animation-delay-3000" />
-        <Car className="absolute bottom-16 left-1/4 sm:bottom-32 sm:left-1/3 w-5 h-5 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-gray-300 animate-bounce animation-delay-5000" />
-        <Car className="absolute bottom-10 right-4 sm:bottom-20 sm:right-20 w-4 h-4 sm:w-5 sm:h-5 lg:w-7 lg:h-7 text-gray-300 animate-bounce animation-delay-2000" />
-      </div> */}
-
       {/* Login Card */}
       <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md">
         {/* Pure white glass morphism container */}
@@ -47,10 +39,10 @@ const LoginPage = () => {
           {/* Logo and title - Ultra compact & responsive */}
           <div className="text-center mb-3 sm:mb-4 animate-fade-in">
             <div className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg sm:rounded-xl mb-2 shadow-lg">
-              <Car className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
+              <FaBoxOpen className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
             </div>
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-1">
-              Car Classify
+              Transify
             </h1>
             <p className="text-gray-600 text-xs sm:text-sm">
               Welcome back! Please sign in
