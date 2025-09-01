@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-   const { data: session } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -32,7 +32,7 @@ export default function Navbar() {
       <Link href="/">Home</Link>
       <Link href="/be-a-rider">Be a Rider</Link>
       <Link href="/send-parcel">Send Parcel</Link>
-      <Link href="/track">Track</Link>
+      <Link href="/track-map">Track</Link>
     </>
   );
 
@@ -104,7 +104,10 @@ export default function Navbar() {
           Login
         </Link>
         <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
-          <span className="text-sm font-bold text-gray-700">{session?.user?.name}</span>
+          <span className="text-sm font-bold text-gray-700">
+            {" "}
+            Hello, {session?.user?.name || "Guest"}
+          </span>
         </div>
       </div>
 

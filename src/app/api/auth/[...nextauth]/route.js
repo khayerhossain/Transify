@@ -36,6 +36,22 @@ export const authOptions = {
       },
     }),
   ],
+  Callbacks: {
+    async session({ session, token, user }) {
+      if (token) {
+        session.user.username = token.username;
+        session.user.role = token.role;
+      }
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        token.username = user.username;
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
 };
 const handler = NextAuth(authOptions);
 
