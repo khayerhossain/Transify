@@ -14,6 +14,7 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     // Simulate login process
+    window.location.href = "/";
     setTimeout(() => {
       setIsLoading(false);
       console.log("Login submitted:", { email, password });

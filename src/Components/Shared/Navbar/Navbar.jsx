@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { FaCarSide } from "react-icons/fa";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+   const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -102,7 +104,7 @@ export default function Navbar() {
           Login
         </Link>
         <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
-          <span className="text-sm font-bold text-gray-700">KH</span>
+          <span className="text-sm font-bold text-gray-700">{session?.user?.name}</span>
         </div>
       </div>
 

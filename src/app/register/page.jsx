@@ -4,6 +4,7 @@ import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
 import axiosInstance from "../../Lib/axiosInstance";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,8 @@ const RegisterPage = () => {
       });
 
       if (data.success) {
-        console.log("User registered:", data.result);
+        // console.log("User registered:", data.result);
+      toast.success("Account created successfully! Please log in.");
       } else {
         console.log("Error:", data.error);
       }
