@@ -8,7 +8,7 @@ export default function AboutUsSection() {
   return (
     <section className="relative bg-white py-10">
       <Container>
-        <div className="mx-auto grid lg:grid-cols-2 items-center">
+        <div className="mx-auto grid lg:grid-cols-2 items-center px-6">
           {/* LEFT SIDE (LOTTIE) -  */}
           <div className="flex justify-center items-center order-2 lg:order-1">
             <Lottie

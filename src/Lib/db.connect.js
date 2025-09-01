@@ -3,6 +3,8 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 export const collectionNamesObj = {
   applyRidersCollection: "applyRiders",
   newslatterSubscribersCollection: "subscribers",
+  bookingParcelsCollection: "bookingParcels",
+  usersCollection: "users",
 };
 
 let client;

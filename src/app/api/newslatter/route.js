@@ -4,7 +4,7 @@ export async function POST(req) {
   try {
     const data = await req.json();
 
-    const collection = dbConnect(collectionNamesObj.newslatterSubscribersCollection);
+    const collection = await dbConnect(collectionNamesObj.newslatterSubscribersCollection);
 
     const newsletterData = {
       name: data.name || "Anonymous",
