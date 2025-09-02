@@ -32,7 +32,7 @@ export default function Navbar() {
       <Link href="/">Home</Link>
       <Link href="/be-a-rider">Be a Rider</Link>
       <Link href="/send-parcel">Send Parcel</Link>
-      <Link href="/track-map">Track</Link>
+      <Link href="/coverage">Coverage</Link>
     </>
   );
 
