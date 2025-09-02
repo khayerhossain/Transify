@@ -1,4 +1,4 @@
-import dbConnect, { collectionNamesObj } from "../../../Lib/db.connect";
+import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

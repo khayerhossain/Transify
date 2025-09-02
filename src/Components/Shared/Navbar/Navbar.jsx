@@ -41,7 +41,7 @@ export default function Navbar() {
       initial={{ width: "100%", borderRadius: 0 }}
       animate={
         !isMobile && isScrolled
-          ? { width: "60%", borderRadius: "9999px", marginTop: "10px" }
+          ? { width: "65%", borderRadius: "9999px", marginTop: "10px" }
           : { width: "100%", borderRadius: 0, marginTop: 0 }
       }
       transition={{ duration: 0.5 }}

@@ -1,6 +1,6 @@
 // Commit: add POST and GET API routes for booking parcels
 import { NextResponse } from "next/server";
-import dbConnect, { collectionNamesObj } from "../../../Lib/db.connect";
+import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
 
 // POST → insert new parcel booking
 export async function POST(req) {

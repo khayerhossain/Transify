@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
-import axiosInstance from "../../Lib/axiosInstance";
+import axiosInstance from "../../lib/axiosInstance";
 import toast from "react-hot-toast";
 
 const RegisterPage = () => {

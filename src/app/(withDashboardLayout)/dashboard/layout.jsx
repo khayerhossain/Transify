@@ -1,4 +1,4 @@
-import Sidebar from "@/Components/Shared/Sidebar";
+import Sidebar from "../../../Components/Shared/Sidebar";
 
 export const metadata = {
   title: "Next Auth Dashboard",

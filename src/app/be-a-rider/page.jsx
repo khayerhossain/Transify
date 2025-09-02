@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import ApplyRidere from "../../assets/apply-rider.png";
 import { User, Mail, Phone, Calendar } from "lucide-react";
-import axiosInstance from "../../Lib/axiosInstance";
+import axiosInstance from "../../lib/axiosInstance";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function BeARider() {

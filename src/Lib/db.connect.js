@@ -5,6 +5,7 @@ export const collectionNamesObj = {
   newslatterSubscribersCollection: "subscribers",
   bookingParcelsCollection: "bookingParcels",
   usersCollection: "users",
+  paymentsCollection: "payments",
 };
 
 let client;
