@@ -56,20 +56,9 @@ export default function SendParcel() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosInstance.post("/booking-parcels", {
-        ...formData,
-        status: "pending",
-      });
-
-      if (res.data.success) {
-        toast.success("✅ Booking saved, proceed to payment!");
-        setBookingId(res.data.bookingId);
-        const totalAmount = calculateAmount();
-        setAmount(totalAmount);
-        setShowPayment(true);
-      } else {
-        toast.error("Failed to submit booking.");
-      }
+      const totalAmount = calculateAmount();
+      setAmount(totalAmount);
+      setShowPayment(true);
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong.");

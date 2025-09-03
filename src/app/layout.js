@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "../Components/Shared/Footer/Footer";
 import Navbar from "../Components/Shared/Navbar/Navbar";
 import SessionProvider from "../Providers/SessionProvider";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
         >
           <Navbar />
           <div className="min-h-screen">{children}</div>
+            <Toaster position="top-right" reverseOrder={false} />
           <Footer />
         </body>
       </SessionProvider>
