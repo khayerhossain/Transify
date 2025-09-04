@@ -31,7 +31,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/admin/approve-riders"
+            href="/dashboard/approve-riders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaSearchLocation className="h-5 w-5" />
@@ -49,11 +49,11 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/about"
+            href="/dashboard/admin/balance"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaInfoCircle className="h-5 w-5" />
-            <span>About Us</span>
+            <span>Balance</span>
           </Link>
         </li>
       </ul>

@@ -37,8 +37,6 @@ export default function SendParcel() {
   });
 
   const [showPayment, setShowPayment] = useState(false);
-  const [clientSecret, setClientSecret] = useState("");
-  const [bookingId, setBookingId] = useState("");
   const [amount, setAmount] = useState(0);
 
   const handleChange = (e) => {
@@ -46,22 +44,33 @@ export default function SendParcel() {
   };
 
   const calculateAmount = () => {
-    // Example: Document = $10, Not-Document = $20 per KG
-    if (formData.type === "Document") return 1000; // $10
-    const weight = parseInt(formData.parcelWeight) || 1;
-    return weight * 2000; // $20 per kg
+    // Document = $10, Not-Document = $20 per KG
+    if (formData.type === "Document") return 1000; // cents: $10
+    const weight = parseInt(formData.parcelWeight);
+    if (!weight || weight <= 0) return 0;
+    return weight * 2000; // cents: $20 per kg
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const totalAmount = calculateAmount();
-      setAmount(totalAmount);
-      setShowPayment(true);
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong.");
+
+    // Non-Document weight validation
+    if (formData.type === "Not-Document") {
+      const weight = parseInt(formData.parcelWeight);
+      if (!weight || weight <= 0) {
+        toast.error("Please enter parcel weight for Non-Document type");
+        return;
+      }
     }
+
+    const totalAmount = calculateAmount();
+    if (totalAmount <= 0) {
+      toast.error("Invalid amount calculated");
+      return;
+    }
+
+    setAmount(totalAmount);
+    setShowPayment(true);
   };
 
   return (
@@ -279,7 +288,6 @@ export default function SendParcel() {
             <CheckoutForm
               amount={amount}
               formData={formData}
-              bookingId={bookingId}
               onSuccess={() => {
                 setFormData({
                   parcelName: "",

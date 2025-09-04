@@ -7,18 +7,34 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    // PaymentIntent create
+    // Ensure amount exists and convert to integer cents
+    let amount = body.amount;
+    if (!amount || isNaN(amount)) {
+      return NextResponse.json(
+        { error: "Invalid or missing amount" },
+        { status: 400 }
+      );
+    }
+
+    amount = Math.round(Number(amount)); // make sure integer
+
+    // Optional: add default metadata if missing
+    const parcelName = body.parcelName || "Unknown Parcel";
+    const senderName = body.senderName || "Unknown Sender";
+
+    // Create Stripe PaymentIntent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: body.amount, // amount in cents (5000 = $50)
+      amount, // in cents
       currency: "usd",
-      metadata: {
-        parcelName: body.parcelName,
-        senderName: body.senderName,
-      },
+      metadata: { parcelName, senderName },
     });
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
   } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("Stripe error:", err);
+    return NextResponse.json(
+      { error: err.message || "Stripe payment failed" },
+      { status: 500 }
+    );
   }
 }
