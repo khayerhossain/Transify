@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axiosInstance from "../../../../lib/axiosInstance";
+import axiosInstance from "../../../../../lib/axiosInstance";
 import { toast } from "react-hot-toast";
 
 export default function ApprovedRidersPage() {

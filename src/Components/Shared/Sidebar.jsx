@@ -22,7 +22,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/applied-riders"
+            href="/dashboard/admin/applied-riders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaBox className="h-5 w-5" />
@@ -31,7 +31,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/approve-riders"
+            href="/dashboard/admin/approve-riders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaSearchLocation className="h-5 w-5" />
@@ -40,7 +40,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/total-orders"
+            href="/dashboard/admin/total-orders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaDollarSign className="h-5 w-5" />
