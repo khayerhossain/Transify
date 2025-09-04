@@ -31,20 +31,20 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/all-riders"
+            href="/dashboard/approve-riders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaSearchLocation className="h-5 w-5" />
-            <span>All Riders</span>
+            <span>Approved Riders</span>
           </Link>
         </li>
         <li>
           <Link
-            href="/dashboard/pricing"
+            href="/dashboard/total-orders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaDollarSign className="h-5 w-5" />
-            <span>Pricing</span>
+            <span>Orders</span>
           </Link>
         </li>
         <li>

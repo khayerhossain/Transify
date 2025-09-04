@@ -45,7 +45,7 @@ export default function BeARider() {
     setLoading(true);
 
     try {
-      const res = await axiosInstance.post("/appy-riders", formData);
+      const res = await axiosInstance.post("/apply-riders", formData);
 
       if (res.data.success) {
         toast.success("✅ Application submitted successfully!");

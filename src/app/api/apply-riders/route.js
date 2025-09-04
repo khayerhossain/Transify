@@ -1,6 +1,8 @@
 // Commit: add POST and GET API routes for rider application
 import { NextResponse } from "next/server";
 import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
+import { ObjectId } from "mongodb";
+
 
 // POST → insert new rider
 export async function POST(req) {
@@ -54,19 +56,24 @@ export async function GET() {
   }
 }
 
-// PATCH → update rider status
+// PATCH → toggle active or update status/feedback
 export async function PATCH(req) {
   try {
-    const { id, status } = await req.json();
-    const collection = await dbConnect(collectionNamesObj.applyRidersCollection);
+    const { id, status, feedback, active } = await req.json();
+    const collection = await dbConnect("applyRiders");
+
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (feedback !== undefined) updateData.feedback = feedback;
+    if (active !== undefined) updateData.active = active;
 
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { status } }
+      { $set: updateData }
     );
 
     if (result.modifiedCount === 1) {
-      return NextResponse.json({ success: true, message: "Status updated" });
+      return NextResponse.json({ success: true, message: "Rider updated" });
     } else {
       return NextResponse.json(
         { success: false, message: "No rider updated" },
@@ -74,9 +81,9 @@ export async function PATCH(req) {
       );
     }
   } catch (error) {
-    console.error("❌ Error updating rider status:", error);
+    console.error("❌ Error updating rider:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to update status" },
+      { success: false, message: "Failed to update rider" },
       { status: 500 }
     );
   }

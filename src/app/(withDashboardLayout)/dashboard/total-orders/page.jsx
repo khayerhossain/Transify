@@ -2,7 +2,7 @@ import React from 'react';
 
 const page = () => {
     return (
-        <div className='mt-20 text-center'>
+        <div className='text-center mt-20'>
             this is all riders page
         </div>
     );
