@@ -1,6 +1,7 @@
 // Commit: add POST and GET API routes for booking parcels
 import { NextResponse } from "next/server";
 import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
+import { ObjectId } from "mongodb";
 
 // POST → insert new parcel booking
 export async function POST(req) {
@@ -50,6 +51,41 @@ export async function GET() {
     console.error("Error fetching parcels:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch parcels" },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH → update rider status + feedback
+export async function PATCH(req) {
+  try {
+    const { id, status, feedback } = await req.json();
+    const collection = await dbConnect(
+      collectionNamesObj.applyRidersCollection
+    );
+
+    const updateData = { status };
+    if (feedback !== undefined) {
+      updateData.feedback = feedback;
+    }
+
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateData }
+    );
+
+    if (result.modifiedCount === 1) {
+      return NextResponse.json({ success: true, message: "Status updated" });
+    } else {
+      return NextResponse.json(
+        { success: false, message: "No rider updated" },
+        { status: 400 }
+      );
+    }
+  } catch (error) {
+    console.error("❌ Error updating rider status:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to update status" },
       { status: 500 }
     );
   }

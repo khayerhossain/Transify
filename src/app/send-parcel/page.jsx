@@ -10,7 +10,6 @@ import {
   Truck,
 } from "lucide-react";
 import Container from "../../Components/Shared/Container/Container";
-import axiosInstance from "../../lib/axiosInstance";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";

@@ -22,20 +22,20 @@ const Sidebar = () => {
         </li>
         <li>
           <Link
-            href="/dashboard/send-parcel"
+            href="/dashboard/applied-riders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaBox className="h-5 w-5" />
-            <span>Send Parcel</span>
+            <span>Applied Riders</span>
           </Link>
         </li>
         <li>
           <Link
-            href="/dashboard/track"
+            href="/dashboard/all-riders"
             className="flex items-center space-x-2 p-3 rounded-md hover:bg-gray-700"
           >
             <FaSearchLocation className="h-5 w-5" />
-            <span>Track Parcel</span>
+            <span>All Riders</span>
           </Link>
         </li>
         <li>
