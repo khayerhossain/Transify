@@ -83,7 +83,7 @@ export default function AppliedRidersPage() {
   }
 
   return (
-    <div className="p-8 mt-16">
+    <div className="p-8 mt-16 h-[100vh]">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Applied Riders</h1>
 
       {riders.length === 0 ? (

@@ -2,7 +2,7 @@
 import Lottie from "lottie-react";
 import deliveryMap from "../../assets/delivery-map.json";
 import { HeartHandshake, ShieldCheck, Truck } from "lucide-react";
-import Container from "../../Components/Shared//Container/Container";
+import Container from "../../Components/Shared/Container/Container";
 
 export default function AboutUsSection() {
   return (

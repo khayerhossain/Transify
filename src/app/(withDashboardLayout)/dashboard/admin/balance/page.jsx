@@ -73,7 +73,7 @@ export default function BalancePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-6 pt-20 mt-0 lg:mt-16">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-6 pt-20 pt-5">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section */}
         <div className="text-center mb-8">

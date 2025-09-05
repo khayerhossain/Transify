@@ -50,7 +50,7 @@ export default function OrdersPage() {
   if (loading) return <p className="text-center p-6">Loading...</p>;
 
   return (
-    <div className="p-6 mt-16">
+    <div className="p-6 mt-16 h-[100vh]">
       <h1 className="text-2xl font-bold mb-6">All Orders</h1>
       {orders.length === 0 ? (
         <div className="bg-white shadow-md rounded-xl p-10 text-center text-gray-500">
@@ -58,7 +58,7 @@ export default function OrdersPage() {
         </div>
       ) : (
         <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200">
-          <table className="min-w-full text-sm">
+          <table className="text-sm">
             <thead className="bg-gradient-to-r from-blue-50 to-blue-100 text-gray-700 uppercase text-xs">
               <tr>
                 <th className="px-6 py-4 text-left">Parcel Type</th>

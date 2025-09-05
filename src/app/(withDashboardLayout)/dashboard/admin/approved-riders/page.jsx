@@ -58,7 +58,7 @@ export default function ApprovedRidersPage() {
   if (loading) return <p className="text-center p-6">Loading...</p>;
 
   return (
-    <div className="p-6 mt-16">
+    <div className="p-6 mt-16 h-[100vh]">
       <h1 className="text-2xl font-bold mb-6">Approved Riders</h1>
       {riders.length === 0 ? (
         <div className="bg-white shadow-md rounded-xl p-10 text-center text-gray-500">
