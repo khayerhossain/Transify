@@ -42,9 +42,9 @@ export default function CustomerReviews() {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16">
       <Container>
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="mx-auto text-center">
           <h2 className="text-4xl font-bold text-gray-900">
             Our Customers <span className="text-red-500">Say</span>
           </h2>
@@ -55,10 +55,14 @@ export default function CustomerReviews() {
           <Swiper
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             modules={[Navigation]}
-            centeredSlides
-            slidesPerView={3}
+            loop={true}
+            centeredSlides={true} // always keep center slide
             spaceBetween={30}
-            loop
+            breakpoints={{
+              0: { slidesPerView: 1 }, // mobile full width
+              768: { slidesPerView: 2 }, // tablet
+              1024: { slidesPerView: 3 }, // desktop
+            }}
             className="py-6"
           >
             {reviews.map((review) => (

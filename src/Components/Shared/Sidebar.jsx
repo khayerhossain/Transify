@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   FaHome,
+  FaUserCheck,
+  FaUserFriends,
   FaBox,
-  FaSearchLocation,
   FaDollarSign,
-  FaInfoCircle,
 } from "react-icons/fa";
 
 const Sidebar = ({ onClick }) => {
@@ -17,28 +17,33 @@ const Sidebar = ({ onClick }) => {
     { name: "Home", icon: <FaHome />, path: "/" },
     {
       name: "Applied Riders",
-      icon: <FaBox />,
+      icon: <FaUserFriends />,
       path: "/dashboard/admin/applied-riders",
     },
     {
       name: "Approved Riders",
-      icon: <FaSearchLocation />,
+      icon: <FaUserCheck />,
       path: "/dashboard/admin/approved-riders",
     },
     {
       name: "Orders",
-      icon: <FaDollarSign />,
+      icon: <FaBox />,
       path: "/dashboard/admin/total-orders",
     },
     {
       name: "Balance",
-      icon: <FaInfoCircle />,
+      icon: <FaDollarSign />,
       path: "/dashboard/admin/balance",
+    },
+    {
+      name: "Support",
+      icon: <FaDollarSign />,
+      path: "/dashboard/rider/support",
     },
   ];
 
   return (
-    <ul className="space-y-2 px-4 h-[100vh]">
+    <ul className="space-y-2 px-4 h-screen">
       {menuItems.map((item, index) => (
         <li key={index}>
           <Link

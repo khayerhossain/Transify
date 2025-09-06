@@ -6,6 +6,7 @@ export const collectionNamesObj = {
   bookingParcelsCollection: "bookingParcels",
   usersCollection: "users",
   paymentsCollection: "payments",
+  supportMessagesCollection: "supportMessages",
 };
 
 let client;
