@@ -23,12 +23,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html data-theme="light" lang="en">
-      <SessionProvider>
+      <SessionProvider >
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Navbar />
           <div className="min-h-screen">{children}</div>
+
             <Toaster position="top-right" reverseOrder={false} />
           <Footer />
         </body>

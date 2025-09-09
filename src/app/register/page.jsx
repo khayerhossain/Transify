@@ -5,6 +5,7 @@ import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
 import axiosInstance from "../../lib/axiosInstance";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,11 +14,13 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  //  Handle Register
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      // Call API to register user
       const { data } = await axiosInstance.post("/register", {
         name,
         email,
@@ -25,25 +28,38 @@ const RegisterPage = () => {
       });
 
       if (data.success) {
-        // console.log("User registered:", data.result);
-      toast.success("Account created successfully! Please log in.");
+        toast.success("Account created successfully!");
+
+        // Auto-login after registration
+        const res = await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+
+        if (res?.ok) {
+          window.location.href = "/"; // redirect to home        } else {
+          toast.error("Auto login failed!");
+        }
       } else {
-        console.log("Error:", data.error);
+        toast.error(data.error || "Something went wrong!");
       }
     } catch (error) {
       console.error("Register failed:", error.response?.data || error.message);
+      toast.error("Register failed!");
     } finally {
       setIsLoading(false);
     }
   };
 
+  //  Placeholder for Google Register (future integration)
   const handleGoogleRegister = () => {
     console.log("Google register clicked");
   };
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-2 sm:p-4 lg:p-6 relative overflow-hidden mt-8">
-      {/* Subtle background pattern */}
+      {/* Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gray-100 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
         <div className="absolute top-3/4 right-1/4 w-32 h-32 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gray-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000"></div>

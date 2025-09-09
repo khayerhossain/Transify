@@ -1,29 +1,48 @@
-import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
 import { NextResponse } from "next/server";
+import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
 
-export async function POST(req) {
+export async function POST(request) {
   try {
-    const { name, email, password } = await req.json();
+    const body = await request.json();
+    const { name, email, password } = body || {};
 
-    const db = await dbConnect(collectionNamesObj.usersCollection);
-
-    // check if user already exists
-    const existingUser = await db.findOne({ email });
-    if (existingUser) {
+    if (!name || !email || !password) {
       return NextResponse.json(
-        { success: false, message: "User already exists" },
+        { success: false, error: "name, email and password are required" },
         { status: 400 }
       );
     }
 
-    // insert new user
-    const result = await db.insertOne({ name, email, password });
+    const usersCollection = await dbConnect(
+      collectionNamesObj.usersCollection
+    );
 
-    return NextResponse.json({ success: true, result }, { status: 201 });
+    const existing = await usersCollection.findOne({ email });
+    if (existing) {
+      return NextResponse.json(
+        { success: false, error: "User already exists" },
+        { status: 409 }
+      );
+    }
+
+    const now = new Date();
+    const insertResult = await usersCollection.insertOne({
+      name,
+      email,
+      password, // Note: storing plain text as per current simple flow
+      role: "user",
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    return NextResponse.json({
+      success: true,
+      user: { id: insertResult.insertedId.toString(), name, email },
+    });
   } catch (error) {
-    console.log(error);
+    console.error("Register error:", error);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }

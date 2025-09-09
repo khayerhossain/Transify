@@ -99,15 +99,32 @@ export default function Navbar() {
         </Link>
 
         {session ? (
-          // If logged in → show Logout
-          <button
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium"
-          >
-            Logout
-          </button>
+          <div className="dropdown dropdown-end">
+            <button className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center">
+                <span className="text-sm font-bold text-gray-700">
+                  {session?.user?.name?.[0]?.toUpperCase() || "U"}
+                </span>
+              </div>
+              <span className="text-gray-800 font-medium">
+                {session?.user?.name || session?.user?.email}
+              </span>
+            </button>
+            <ul className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-56">
+              <li className="px-2 py-1 text-sm text-gray-700">
+                Signed in as
+                <div className="font-semibold truncate">
+                  {session?.user?.email}
+                </div>
+              </li>
+              <li>
+                <button onClick={() => signOut({ callbackUrl: "/" })} className="text-red-600">
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
         ) : (
-          //  If not logged in → show Login
           <Link
             href="/login"
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium"
@@ -115,12 +132,6 @@ export default function Navbar() {
             Login
           </Link>
         )}
-
-        <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
-          <span className="text-sm font-bold text-gray-700">
-            Hello, {session?.user?.name || "Guest"}
-          </span>
-        </div>
       </div>
 
       {/*  Mobile Hamburger Menu */}
