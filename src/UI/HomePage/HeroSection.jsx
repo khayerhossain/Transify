@@ -48,7 +48,7 @@ export default function CourierHeroSection() {
 
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/pricing" className="group bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-4 rounded-2xl text-white font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                    <Link href="/send-parcel" className="group bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-4 rounded-2xl text-white font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                       <span className="flex items-center justify-center space-x-2">
                         <Package className="w-5 h-5" />
                         <span>Book Delivery</span>

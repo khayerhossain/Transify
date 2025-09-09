@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { FaCarSide } from "react-icons/fa";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react"; 
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,7 +18,7 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
 
-    handleResize(); // first load e check korbe
+    handleResize();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -26,7 +26,7 @@ export default function Navbar() {
     };
   }, []);
 
-  // ✅ Public Links
+  // Public Links
   const navLinks = (
     <>
       <Link href="/">Home</Link>
@@ -97,21 +97,33 @@ export default function Navbar() {
         >
           Dashboard
         </Link>
-        <Link
-          href="/login"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium"
-        >
-          Login
-        </Link>
+
+        {session ? (
+          // If logged in → show Logout
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg font-medium"
+          >
+            Logout
+          </button>
+        ) : (
+          //  If not logged in → show Login
+          <Link
+            href="/login"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium"
+          >
+            Login
+          </Link>
+        )}
+
         <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
           <span className="text-sm font-bold text-gray-700">
-            {" "}
             Hello, {session?.user?.name || "Guest"}
           </span>
         </div>
       </div>
 
-      {/* ✅ Mobile Hamburger Menu */}
+      {/*  Mobile Hamburger Menu */}
       <div className="dropdown dropdown-end md:hidden">
         <label tabIndex={0} className="btn btn-ghost btn-circle text-gray-800">
           <svg
@@ -137,9 +149,17 @@ export default function Navbar() {
           <li>
             <Link href="/dashboard">Dashboard</Link>
           </li>
-          <li>
-            <Link href="/login">Login</Link>
-          </li>
+          {session ? (
+            <li>
+              <button onClick={() => signOut({ callbackUrl: "/" })}>
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <Link href="/login">Login</Link>
+            </li>
+          )}
         </ul>
       </div>
     </motion.nav>
