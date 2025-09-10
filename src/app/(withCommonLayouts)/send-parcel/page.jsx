@@ -9,11 +9,11 @@ import {
   Home,
   Truck,
 } from "lucide-react";
-import Container from "../../Components/Shared/Container/Container";
+import Container from "../../../Components/Shared/Container/Container";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from "../../Components/Forms/CheckoutForm";
+import CheckoutForm from "../../../Components/Forms/CheckoutForm";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -313,3 +313,5 @@ export default function SendParcel() {
     </section>
   );
 }
+
+

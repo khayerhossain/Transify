@@ -11,7 +11,6 @@ export const authOptions = {
       },
       async authorize(credentials) {
         const { email, password } = credentials;
-
         // Get users collection
         const usersCollection = await dbConnect(
           collectionNamesObj.usersCollection

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef } from 'react';
 import { Search, MapPin, Navigation, Star } from 'lucide-react';
-import Container from '../../Components/Shared/Container/Container';
+import Container from '../../../Components/Shared/Container/Container';
 
 const CoverageMap = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -509,3 +509,5 @@ const CoverageMap = () => {
 };
 
 export default CoverageMap;
+
+
