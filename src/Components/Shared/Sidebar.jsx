@@ -40,6 +40,11 @@ const Sidebar = ({ onClick }) => {
       icon: <FaDollarSign />,
       path: "/dashboard/rider/support",
     },
+    {
+      name: "Riders Update",
+      icon: <FaDollarSign />,
+      path: "/dashboard/admin/riders-update",
+    },
   ];
 
   return (

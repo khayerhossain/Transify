@@ -7,7 +7,7 @@ export async function POST(req) {
     const body = await req.json();
     const { riderName, riderEmail, message } = body;
 
-    const client = await clientPromise;
+    // const client = await clientPromise;
     const collection = await dbConnect(
       collectionNamesObj.supportMessagesCollection
     );
@@ -16,7 +16,6 @@ export async function POST(req) {
       riderName,
       riderEmail,
       message,
-      status: "pending",
       createdAt: new Date(),
     });
 
@@ -35,13 +34,14 @@ export async function POST(req) {
 // GET: Admin fetch messages
 export async function GET() {
   try {
-    const client = await clientPromise;
-    const db = client.db("courierDB");
-    const collection = db.collection("supportMessages");
-
-    const messages = await collection.find().sort({ createdAt: -1 }).toArray();
-
-    return NextResponse.json(messages);
+    const collection = await dbConnect(
+      collectionNamesObj.supportMessagesCollection
+    );
+    const messages = await collection
+      .find()
+      .sort({ createdAt: -1 })
+      .toArray();
+    return NextResponse.json({ success: true, messages });
   } catch (error) {
     return NextResponse.json(
       { success: false, error: error.message },

@@ -5,7 +5,7 @@ import Container from "../../Components/Shared/Container/Container";
 
 export default function BecomeDeliveryMan() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-white py-16">
       <Container>
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col-reverse md:flex-row items-center justify-between bg-white rounded-3xl shadow-xl overflow-hidden">

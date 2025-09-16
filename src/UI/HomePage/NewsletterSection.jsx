@@ -2,12 +2,8 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../Components/Shared/Container/Container";
-// যদি auth hook থাকে তাহলে import করো
-// import useAuth from "@/Hooks/useAuth";
 
 export default function NewsletterSection() {
-  // ধরো user login করা আছে
-  // const { user } = useAuth();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -18,59 +14,102 @@ export default function NewsletterSection() {
     setMessage("");
 
     try {
-      const res = await axios.post("/api/newsletter", {
-        // user?.name || "Anonymous",
-        // user?.image || "",
-        email,
-      });
-
-      if (res.data.success) {
-        setMessage("✅ Subscribed successfully!");
+      const res = await axios.post("/api/newsletter", { email });
+      if (res.data?.success) {
+        setMessage(" Subscribed successfully!");
         setEmail("");
       } else {
-        setMessage("❌ Subscription failed.");
+        setMessage("Subscription failed.");
       }
     } catch (err) {
       console.error(err);
-      setMessage("⚠️ Something went wrong.");
+      setMessage(" Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="min-h-[420px] flex items-center justify-center bg-white p-6 mt-0 lg:mt-16">
       <Container>
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Subscribe to <span className="text-red-500">Our Newsletter</span>
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Get the latest updates and offers delivered straight to your inbox.
-          </p>
+        <div className="relative w-full max-w-7xl rounded-3xl shadow-2xl overflow-hidden">
+          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-b from-red-600 to-red-500" />
 
-          <form
-            onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full sm:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
-              required
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition cursor-pointer"
-            >
-              {loading ? "Subscribing..." : "Subscribe"}
-            </button>
-          </form>
+          <div className="relative bg-white rounded-3xl p-12 shadow-inner md:p-16">
+            <div className="absolute -bottom-6 left-10 right-10 h-6 rounded-xl bg-white/0 shadow-[0_35px_35px_rgba(0,0,0,0.12)] pointer-events-none" />
 
-          {message && <p className="mt-4 text-gray-600">{message}</p>}
+            <div className="max-w-2xl mx-auto text-center">
+              {/* Curved line + rocket/paper-plane icon */}
+              <div className="flex items-center justify-center mb-6">
+                <svg
+                  width="240"
+                  height="80"
+                  viewBox="0 0 240 80"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mx-auto"
+                >
+                  {/* Curved flight path */}
+                  <path
+                    d="M10 60 C80 10, 160 10, 230 40"
+                    stroke="#D1D5DB"
+                    strokeWidth="2.5"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+
+                  {/* Paper-plane/rocket icon */}
+                  <g transform="translate(210,22) rotate(-10)">
+                    <path
+                      d="M2 10 L28 0 L18 30 L10 22 L2 10 Z"
+                      fill="#EF4444"
+                    />
+                    <path d="M2 10 L10 22 L12 14 Z" fill="#B91C1C" />
+                    <circle cx="16" cy="12" r="2" fill="#fff" />
+                  </g>
+                </svg>
+              </div>
+
+              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-2">
+                SUBSCRIBE<span className="text-red-500">.</span>
+              </h1>
+
+              <p className="text-gray-500 mb-8">
+                Get the latest updates and offers delivered straight to your
+                inbox.
+              </p>
+
+              <form
+                onSubmit={handleSubscribe}
+                className="flex flex-col sm:flex-row items-center gap-4 justify-center"
+              >
+                <div className="w-full sm:w-2/3">
+                  <label className="relative block">
+                    <input
+                      type="email"
+                      placeholder="Your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="w-full bg-transparent border-none px-4 py-4 text-gray-700 placeholder-gray-300 focus:outline-none text-lg"
+                    />
+                    <div className="h-[1px] bg-gray-200 w-full" />
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-red-500 text-white font-semibold shadow-lg hover:bg-red-600 transition disabled:opacity-60"
+                >
+                  {loading ? "Subscribing..." : "SUBSCRIBE"}
+                </button>
+              </form>
+
+              {message && (
+                <p className="mt-6 text-sm text-gray-600">{message}</p>
+              )}
+            </div>
+          </div>
         </div>
       </Container>
     </section>

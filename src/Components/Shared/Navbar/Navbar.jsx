@@ -9,7 +9,11 @@ import { useSession, signOut } from "next-auth/react";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  // Debug logging
+  console.log("Navbar - Session status:", status);
+  console.log("Navbar - Session data:", session);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -118,7 +122,13 @@ export default function Navbar() {
                 </div>
               </li>
               <li>
-                <button onClick={() => signOut({ callbackUrl: "/" })} className="text-red-600">
+                <button 
+                  onClick={() => {
+                    console.log("Logout button clicked");
+                    signOut({ callbackUrl: "/" });
+                  }} 
+                  className="text-red-600"
+                >
                   Logout
                 </button>
               </li>
@@ -162,7 +172,12 @@ export default function Navbar() {
           </li>
           {session ? (
             <li>
-              <button onClick={() => signOut({ callbackUrl: "/" })}>
+              <button 
+                onClick={() => {
+                  console.log("Mobile logout button clicked");
+                  signOut({ callbackUrl: "/" });
+                }}
+              >
                 Logout
               </button>
             </li>
