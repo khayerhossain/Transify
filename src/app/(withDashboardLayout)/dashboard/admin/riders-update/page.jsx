@@ -3,8 +3,9 @@
 import axiosInstance from "../../../../../lib/axiosInstance";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
 
-export default function RidersUpdatePage() {
+function RidersUpdateInner() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +28,7 @@ export default function RidersUpdatePage() {
   if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="p-6">
+    <div className="p-6 mt-16 min-h-screen bg-gray-50">
       <h1 className="text-xl font-bold mb-4">Riders Messages</h1>
       <div className="space-y-4">
         {messages.length > 0 ? (
@@ -56,5 +57,13 @@ export default function RidersUpdatePage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function RidersUpdatePage() {
+  return (
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <RidersUpdateInner />
+    </ProtectedRoute>
   );
 }

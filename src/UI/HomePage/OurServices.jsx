@@ -5,33 +5,33 @@ export default function OurServices() {
   const services = [
     {
       icon: <Truck className="w-10 h-10 text-red-500" />,
-      title: "Fast Delivery",
-      desc: "Quick and reliable parcel delivery to your doorstep.",
+      title: "Nationwide Doorstep Delivery",
+      desc: "Standard and express delivery from Dhaka to all 64 districts.",
     },
     {
       icon: <Package className="w-10 h-10 text-red-500" />,
-      title: "Secure Packaging",
-      desc: "Your parcels are packed with extra care and safety.",
+      title: "E‑commerce & Merchant Delivery",
+      desc: "Optimised for online shops with bulk order support and easy uploads.",
     },
     {
       icon: <Clock className="w-10 h-10 text-red-500" />,
-      title: "On-Time Service",
-      desc: "We value your time with guaranteed on-time delivery.",
+      title: "Same‑Day City Delivery",
+      desc: "In‑city same‑day and next‑day delivery options for urgent parcels.",
     },
     {
       icon: <MapPin className="w-10 h-10 text-red-500" />,
-      title: "Real-Time Tracking",
-      desc: "Track your parcels live anytime, anywhere.",
+      title: "Live Tracking & Notifications",
+      desc: "End‑to‑end tracking with SMS and dashboard updates for every order.",
     },
     {
       icon: <Shield className="w-10 h-10 text-red-500" />,
-      title: "Safe & Secure",
-      desc: "Ensuring safety with trusted handling and transport.",
+      title: "Secure COD Management",
+      desc: "Cash‑on‑delivery collection with transparent, timely settlements.",
     },
     {
       icon: <Phone className="w-10 h-10 text-red-500" />,
-      title: "24/7 Support",
-      desc: "Our team is always here to help you out anytime.",
+      title: "Dedicated Merchant Support",
+      desc: "Support team focused on helping your business scale deliveries.",
     },
   ];
 
@@ -40,12 +40,13 @@ export default function OurServices() {
       <Container>
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-gray-900">
-            Our <span className="text-red-500">Services</span>
+            Solutions for{" "}
+            <span className="text-red-500">Modern E‑commerce Delivery</span>
           </h2>
           <p className="text-center text-gray-600 max-w-2xl mx-auto mt-4 mb-12">
-            We provide reliable and affordable parcel delivery across the
-            country. From doorstep pickup to real-time tracking, we’ve got you
-            covered.
+            From small home‑based shops to large marketplaces, streamline your
+            last‑mile logistics with reliable delivery, COD handling and
+            real‑time visibility.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

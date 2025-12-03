@@ -38,7 +38,8 @@ const RegisterPage = () => {
         });
 
         if (res?.ok) {
-          window.location.href = "/"; // redirect to home        } else {
+          window.location.href = "/"; // redirect to home
+        } else {
           toast.error("Auto login failed!");
         }
       } else {
@@ -195,7 +196,7 @@ const RegisterPage = () => {
             <p className="text-gray-600 text-xs sm:text-sm">
               Already have an account?{" "}
               <Link
-                href="login"
+                href="/login"
                 className="text-blue-600 hover:text-blue-700 transition-colors duration-200 font-semibold"
               >
                 Sign in

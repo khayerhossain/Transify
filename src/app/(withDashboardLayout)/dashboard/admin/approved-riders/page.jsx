@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../../../lib/axiosInstance";
 import { toast } from "react-hot-toast";
+import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
 
-export default function ApprovedRidersPage() {
+function ApprovedRidersInner() {
   const [riders, setRiders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [savingId, setSavingId] = useState(null);
@@ -58,7 +59,7 @@ export default function ApprovedRidersPage() {
   if (loading) return <p className="text-center p-6">Loading...</p>;
 
   return (
-    <div className="p-6 mt-16 h-[100vh]">
+    <div className="p-6 mt-16 min-h-screen bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Approved Riders</h1>
       {riders.length === 0 ? (
         <div className="bg-white shadow-md rounded-xl p-10 text-center text-gray-500">
@@ -151,5 +152,13 @@ export default function ApprovedRidersPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ApprovedRidersPage() {
+  return (
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <ApprovedRidersInner />
+    </ProtectedRoute>
   );
 }

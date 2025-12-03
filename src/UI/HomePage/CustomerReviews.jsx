@@ -1,114 +1,90 @@
 "use client";
-import { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import "swiper/css";
-import "swiper/css/navigation";
+import { useState } from "react";
 import Container from "../../Components/Shared/Container/Container";
 
 export default function CustomerReviews() {
-  const swiperRef = useRef(null);
-
   const reviews = [
     {
       id: 1,
       name: "John Doe",
-      date: "Aug 15, 2025",
+      role: "Sales Manager, Slack",
       img: "https://randomuser.me/api/portraits/men/32.jpg",
-      desc: "The delivery was super fast and safe. I got my parcel right on time!",
+      title: "It was a great experience!",
+      rating: 5,
+      desc: "The delivery was super fast and safe. I got my parcel right on time! Their system was smooth, and I didn’t face any hassle. Honestly, this is one of the best courier services I’ve ever used because it combines speed, reliability, and excellent support all in one.",
     },
     {
       id: 2,
       name: "Sarah Khan",
-      date: "Aug 20, 2025",
+      role: "Head of Sales, Asana",
       img: "https://randomuser.me/api/portraits/women/45.jpg",
-      desc: "Amazing experience! The real-time tracking kept me updated throughout.",
+      title: "Loved the service!",
+      rating: 4,
+      desc: "Amazing experience! The real-time tracking kept me updated throughout the process, and the delivery arrived earlier than expected. It gave me complete peace of mind knowing exactly where my parcel was at every step. Definitely a trustworthy service worth using again.",
     },
     {
       id: 3,
       name: "Michael Smith",
-      date: "Aug 25, 2025",
+      role: "Sales Team Lead, Sketch",
       img: "https://randomuser.me/api/portraits/men/76.jpg",
-      desc: "Best courier service I've used. Safe, reliable, and quick.",
-    },
-    {
-      id: 4,
-      name: "Emma Watson",
-      date: "Aug 27, 2025",
-      img: "https://randomuser.me/api/portraits/women/68.jpg",
-      desc: "Support team was very helpful. I’ll definitely use them again!",
+      title: "Highly recommended!",
+      rating: 5,
+      desc: "Safe, reliable, and quick deliveries every time. I’ve tried many services before, but none of them offered this level of professionalism and care. From pick-up to drop-off, everything was handled flawlessly. I’ll definitely recommend them to my colleagues and friends.",
     },
   ];
 
+  const [activeReview, setActiveReview] = useState(reviews[0]);
+
   return (
-    <section className="py-16">
+    <section className="py-16 bg-gray-50">
       <Container>
-        <div className="mx-auto text-center">
-          <h2 className="text-4xl font-bold text-gray-900">
-            Our Customers <span className="text-red-500">Say</span>
-          </h2>
-          <p className="text-gray-600 mt-4 mb-12">
-            Hear from our happy customers who trusted us with their deliveries.
-          </p>
+        <h2 className="text-4xl font-bold text-gray-900 mb-12">
+          Testimonials
+        </h2>
 
-          <Swiper
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
-            modules={[Navigation]}
-            loop={true}
-            centeredSlides={true} // always keep center slide
-            spaceBetween={30}
-            breakpoints={{
-              0: { slidesPerView: 1 }, // mobile full width
-              768: { slidesPerView: 2 }, // tablet
-              1024: { slidesPerView: 3 }, // desktop
-            }}
-            className="py-6"
-          >
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          {/* Left side - user list */}
+          <div className="space-y-4">
             {reviews.map((review) => (
-              <SwiperSlide key={review.id}>
-                {({ isActive }) => (
-                  <div
-                    className={`p-6 rounded-3xl shadow-xl transition-all duration-500 transform ${
-                      isActive
-                        ? "scale-105 opacity-100 bg-white border-2 border-gray-200 z-10"
-                        : "scale-90 opacity-50 bg-gray-100 border border-gray-200 blur-sm"
-                    }`}
-                  >
-                    <div className="flex flex-col items-center">
-                      <img
-                        src={review.img}
-                        alt={review.name}
-                        className="w-20 h-20 rounded-full mb-4 border-2 border-red-500 shadow-sm"
-                      />
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                        {review.name}
-                      </h3>
-                      <p className="text-sm text-gray-500 mb-4">
-                        {review.date}
-                      </p>
-                      <p className="text-gray-700 text-center">{review.desc}</p>
-                    </div>
-                  </div>
-                )}
-              </SwiperSlide>
+              <div
+                key={review.id}
+                onClick={() => setActiveReview(review)}
+                className={`flex items-center gap-4 p-4 rounded-xl cursor-pointer transition ${
+                  activeReview.id === review.id
+                    ? "bg-white shadow-lg border border-gray-200"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                <img
+                  src={review.img}
+                  alt={review.name}
+                  className="w-14 h-14 rounded-full border-2 border-red-500 shadow-sm"
+                />
+                <div>
+                  <h3 className="font-semibold text-gray-900">
+                    {review.name}
+                  </h3>
+                  <p className="text-sm text-gray-500">{review.role}</p>
+                </div>
+              </div>
             ))}
-          </Swiper>
+          </div>
 
-          {/* Navigation buttons */}
-          <div className="flex justify-center gap-6 mt-8">
-            <button
-              onClick={() => swiperRef.current.slidePrev()}
-              className="flex items-center gap-2 px-6 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-semibold shadow hover:bg-red-500 hover:text-white transition cursor-pointer"
-            >
-              <ArrowLeft className="w-5 h-5" /> Prev
-            </button>
-            <button
-              onClick={() => swiperRef.current.slideNext()}
-              className="flex items-center gap-2 px-6 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 font-semibold shadow hover:bg-red-500 hover:text-white transition cursor-pointer"
-            >
-              Next <ArrowRight className="w-5 h-5" />
-            </button>
+          {/* Right side - review detail */}
+          <div className="bg-white p-8 rounded-2xl shadow-md border border-gray-200">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+              {activeReview.title}
+            </h3>
+            <div className="flex mb-6">
+              {Array.from({ length: activeReview.rating }).map((_, i) => (
+                <span key={i} className="text-yellow-400 text-2xl">
+                  ★
+                </span>
+              ))}
+            </div>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              {activeReview.desc}
+            </p>
           </div>
         </div>
       </Container>

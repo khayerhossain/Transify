@@ -5,12 +5,14 @@ import HeroSection from "../../UI/HomePage/HeroSection";
 import NewsletterSection from "../../UI/HomePage/NewsletterSection";
 import OurServices from "../../UI/HomePage/OurServices";
 import Process from "../../UI/HomePage/Process";
+import StatsSection from "../../UI/HomePage/StatsSection";
 import React from "react";
 
 const HomePage = () => {
   return (
     <div className="pt-20">
       <HeroSection />
+      <StatsSection />
       <Process />
       <AboutUsSection />
       <OurServices />

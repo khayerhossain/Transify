@@ -56,36 +56,41 @@ export async function GET() {
   }
 }
 
-// PATCH → update rider status + feedback
+// PATCH → update parcel booking (e.g. status)
 export async function PATCH(req) {
   try {
-    const { id, status, feedback } = await req.json();
-    const collection = await dbConnect(
-      collectionNamesObj.applyRidersCollection
-    );
-
-    const updateData = { status };
-    if (feedback !== undefined) {
-      updateData.feedback = feedback;
-    }
-
-    const result = await collection.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: updateData }
-    );
-
-    if (result.modifiedCount === 1) {
-      return NextResponse.json({ success: true, message: "Status updated" });
-    } else {
+    const { id, status } = await req.json();
+    if (!id || !status) {
       return NextResponse.json(
-        { success: false, message: "No rider updated" },
+        { success: false, message: "id and status are required" },
         { status: 400 }
       );
     }
-  } catch (error) {
-    console.error("❌ Error updating rider status:", error);
+
+    const collection = await dbConnect(
+      collectionNamesObj.bookingParcelsCollection
+    );
+
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { status } }
+    );
+
+    if (result.modifiedCount === 1) {
+      return NextResponse.json({
+        success: true,
+        message: "Parcel status updated",
+      });
+    }
+
     return NextResponse.json(
-      { success: false, message: "Failed to update status" },
+      { success: false, message: "No parcel updated" },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error("❌ Error updating parcel status:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to update parcel status" },
       { status: 500 }
     );
   }

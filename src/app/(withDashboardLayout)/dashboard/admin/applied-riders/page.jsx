@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../../../lib/axiosInstance";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
+import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
 
-export default function AppliedRidersPage() {
+function AppliedRidersInner() {
   const [riders, setRiders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [savingId, setSavingId] = useState(null);
@@ -83,7 +84,7 @@ export default function AppliedRidersPage() {
   }
 
   return (
-    <div className="p-8 mt-16 h-[100vh]">
+    <div className="p-8 mt-16 min-h-screen bg-gray-50">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Applied Riders</h1>
 
       {riders.length === 0 ? (
@@ -170,5 +171,13 @@ export default function AppliedRidersPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AppliedRidersPage() {
+  return (
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AppliedRidersInner />
+    </ProtectedRoute>
   );
 }

@@ -5,23 +5,23 @@ export default function Process() {
   const steps = [
     {
       icon: <Truck className="w-10 h-10 text-red-500" />,
-      title: "Schedule Pickup",
-      desc: "Request a pickup at your convenient time, right from your doorstep.",
+      title: "Create Order",
+      desc: "Place orders individually or in bulk for your online store.",
     },
     {
       icon: <Package className="w-10 h-10 text-red-500" />,
-      title: "Package Handling",
-      desc: "Our team safely packs and prepares your parcel for shipment.",
+      title: "Pickup from Seller",
+      desc: "Riders collect parcels from your warehouse, office or home.",
     },
     {
       icon: <MapPin className="w-10 h-10 text-red-500" />,
       title: "In Transit",
-      desc: "Track your parcel in real-time as it moves through our network.",
+      desc: "Parcels move through hubs across Bangladesh with live tracking.",
     },
     {
       icon: <CheckCircle className="w-10 h-10 text-red-500" />,
-      title: "Delivered",
-      desc: "Your parcel arrives safely at the recipient's address.",
+      title: "Delivered & COD Settled",
+      desc: "Consignee receives the parcel and your COD is settled on time.",
     },
   ];
 
@@ -30,11 +30,11 @@ export default function Process() {
       <Container>
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            How It <span className="text-red-500">Works</span>
+            How Your <span className="text-red-500">Parcels Move</span>
           </h2>
           <p className="text-gray-600 mb-12">
-            Our delivery process is simple and transparent, ensuring your parcel
-            reaches safely.
+            A simple, transparent process from order creation to on‑time COD
+            settlement — built for Bangladeshi e‑commerce merchants.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

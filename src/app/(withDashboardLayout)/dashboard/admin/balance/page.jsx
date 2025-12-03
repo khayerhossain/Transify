@@ -11,8 +11,9 @@ import {
   AreaChart,
   Area,
 } from "recharts";
+import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
 
-export default function BalancePage() {
+function BalanceInner() {
   const [data, setData] = useState({ totalBalance: 0, chartData: [] });
   const [loading, setLoading] = useState(true);
   const [viewType, setViewType] = useState("area"); // 'line' or 'area'
@@ -320,5 +321,13 @@ export default function BalancePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BalancePage() {
+  return (
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <BalanceInner />
+    </ProtectedRoute>
   );
 }

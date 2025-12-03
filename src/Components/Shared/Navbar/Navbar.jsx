@@ -2,18 +2,14 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { FaCarSide } from "react-icons/fa";
+import { FaCarSide, FaHome, FaMotorcycle, FaBoxOpen, FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react"; 
+import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { data: session, status } = useSession();
-
-  // Debug logging
-  console.log("Navbar - Session status:", status);
-  console.log("Navbar - Session data:", session);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -31,12 +27,20 @@ export default function Navbar() {
   }, []);
 
   // Public Links
-  const navLinks = (
+  const renderNavLinks = () => (
     <>
-      <Link href="/">Home</Link>
-      <Link href="/be-a-rider">Be a Rider</Link>
-      <Link href="/send-parcel">Send Parcel</Link>
-      <Link href="/coverage">Coverage</Link>
+      <Link href="/" className="flex items-center gap-1">
+        {isScrolled ? <FaHome /> : "Home"}
+      </Link>
+      <Link href="/be-a-rider" className="flex items-center gap-1">
+        {isScrolled ? <FaMotorcycle /> : "Be a Rider"}
+      </Link>
+      <Link href="/send-parcel" className="flex items-center gap-1">
+        {isScrolled ? <FaBoxOpen /> : "Send Parcel"}
+      </Link>
+      <Link href="/coverage" className="flex items-center gap-1">
+        {isScrolled ? <FaMapMarkerAlt /> : "Coverage"}
+      </Link>
     </>
   );
 
@@ -52,19 +56,19 @@ export default function Navbar() {
       className="
         fixed top-0 left-0 right-0 mx-auto 
         px-6 py-3 flex items-center justify-between z-50
-        bg-white md:bg-white/60 md:backdrop-blur-md
+        bg-white/95 md:bg-white/70 md:backdrop-blur-md
       "
     >
       {/* Logo + Title */}
       <div className="flex items-center gap-2">
-        <span className="text-2xl font-bold">
+        <span className="text-2xl font-bold text-red-600">
           <FaCarSide />
         </span>
         {!isScrolled && (
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-xl font-bold text-gray-800"
+            className="text-xl font-bold text-gray-900"
           >
             Transify
           </motion.span>
@@ -73,7 +77,7 @@ export default function Navbar() {
 
       {/* Desktop Links */}
       <div className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
-        {navLinks}
+        {renderNavLinks()}
       </div>
 
       {/* Search (Desktop only) */}
@@ -97,7 +101,7 @@ export default function Navbar() {
       <div className="hidden md:flex items-center gap-4">
         <Link
           href="/dashboard"
-          className="text-gray-700 font-medium hover:text-blue-600"
+          className="text-gray-700 font-medium hover:text-red-600"
         >
           Dashboard
         </Link>
@@ -135,12 +139,20 @@ export default function Navbar() {
             </ul>
           </div>
         ) : (
-          <Link
-            href="/login"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg font-medium"
-          >
-            Login
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white text-sm font-semibold shadow-sm"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/register"
+              className="px-4 py-2 rounded-full border border-gray-900 text-gray-900 text-sm font-semibold hover:bg-gray-900 hover:text-white transition"
+            >
+              Sign Up
+            </Link>
+          </div>
         )}
       </div>
 
@@ -166,15 +178,14 @@ export default function Navbar() {
           tabIndex={0}
           className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-40 space-y-1"
         >
-          <li>{navLinks}</li>
+          <li>{renderNavLinks()}</li>
           <li>
             <Link href="/dashboard">Dashboard</Link>
           </li>
           {session ? (
             <li>
-              <button 
+              <button
                 onClick={() => {
-                  console.log("Mobile logout button clicked");
                   signOut({ callbackUrl: "/" });
                 }}
               >
@@ -182,9 +193,14 @@ export default function Navbar() {
               </button>
             </li>
           ) : (
-            <li>
-              <Link href="/login">Login</Link>
-            </li>
+            <>
+              <li>
+                <Link href="/login">Sign In</Link>
+              </li>
+              <li>
+                <Link href="/register">Sign Up</Link>
+              </li>
+            </>
           )}
         </ul>
       </div>

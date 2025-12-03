@@ -30,15 +30,15 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="min-h-[420px] flex items-center justify-center bg-white p-6 mt-0 lg:mt-16">
+    <section className="min-h-[420px] flex items-center justify-center bg-red-50/60 p-6 mt-0 lg:mt-16">
       <Container>
-        <div className="relative w-full max-w-7xl rounded-3xl shadow-2xl overflow-hidden">
-          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-b from-red-600 to-red-500" />
+        <div className="relative w-full max-w-7xl rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-red-700">
+          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-b from-red-500/80 to-red-400/80" />
 
-          <div className="relative bg-white rounded-3xl p-12 shadow-inner md:p-16">
+          <div className="relative rounded-3xl p-10 md:p-16">
             <div className="absolute -bottom-6 left-10 right-10 h-6 rounded-xl bg-white/0 shadow-[0_35px_35px_rgba(0,0,0,0.12)] pointer-events-none" />
 
-            <div className="max-w-2xl mx-auto text-center">
+            <div className="max-w-2xl mx-auto text-center text-white">
               {/* Curved line + rocket/paper-plane icon */}
               <div className="flex items-center justify-center mb-6">
                 <svg
@@ -69,13 +69,13 @@ export default function NewsletterSection() {
                 </svg>
               </div>
 
-              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-2">
-                SUBSCRIBE<span className="text-red-500">.</span>
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">
+                Stay ahead of every <span className="text-red-300">delivery</span>
               </h1>
 
-              <p className="text-gray-500 mb-8">
-                Get the latest updates and offers delivered straight to your
-                inbox.
+              <p className="text-sm md:text-base text-slate-200 mb-8">
+                Get merchant updates, coverage expansion news, and special
+                delivery offers straight to your inbox.
               </p>
 
               <form
@@ -90,7 +90,7 @@ export default function NewsletterSection() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full bg-transparent border-none px-4 py-4 text-gray-700 placeholder-gray-300 focus:outline-none text-lg"
+                      className="w-full bg-transparent border-none px-4 py-4 text-slate-100 placeholder-slate-400 focus:outline-none text-lg"
                     />
                     <div className="h-[1px] bg-gray-200 w-full" />
                   </label>
@@ -99,14 +99,14 @@ export default function NewsletterSection() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-red-500 text-white font-semibold shadow-lg hover:bg-red-600 transition disabled:opacity-60"
+                  className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-red-600 font-semibold shadow-lg hover:bg-slate-100 transition disabled:opacity-60"
                 >
-                  {loading ? "Subscribing..." : "SUBSCRIBE"}
+                  {loading ? "Subscribing..." : "Subscribe"}
                 </button>
               </form>
 
               {message && (
-                <p className="mt-6 text-sm text-gray-600">{message}</p>
+                <p className="mt-6 text-sm text-slate-100">{message}</p>
               )}
             </div>
           </div>
