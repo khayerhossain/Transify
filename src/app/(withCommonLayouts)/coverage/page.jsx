@@ -1,513 +1,267 @@
 "use client";
-import React, { useState, useRef } from 'react';
-import { Search, MapPin, Navigation, Star } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, MapPin, CheckCircle2, Package, Clock, TrendingUp } from 'lucide-react';
 import Container from '../../../Components/Shared/Container/Container';
+import Image from 'next/image';
 
-const CoverageMap = () => {
+const CoveragePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [activeTab, setActiveTab] = useState('all'); // all, dhaka, chittagong, etc.
 
-  // All 64 districts with realistic coordinates and division info
+  // All 64 districts organized by division
   const districts = [
-    // Dhaka Division (13 districts)
-    { name: 'Dhaka', division: 'Dhaka', divisionColor: '#e879f9', x: 385, y: 270, capital: true, population: '9.5M' },
-    { name: 'Faridpur', division: 'Dhaka', divisionColor: '#e879f9', x: 320, y: 290, capital: false, population: '180K' },
-    { name: 'Gazipur', division: 'Dhaka', divisionColor: '#e879f9', x: 395, y: 250, capital: false, population: '350K' },
-    { name: 'Gopalganj', division: 'Dhaka', divisionColor: '#e879f9', x: 305, y: 320, capital: false, population: '110K' },
-    { name: 'Kishoreganj', division: 'Dhaka', divisionColor: '#e879f9', x: 425, y: 245, capital: false, population: '300K' },
-    { name: 'Madaripur', division: 'Dhaka', divisionColor: '#e879f9', x: 335, y: 305, capital: false, population: '120K' },
-    { name: 'Manikganj', division: 'Dhaka', divisionColor: '#e879f9', x: 360, y: 270, capital: false, population: '140K' },
-    { name: 'Munshiganj', division: 'Dhaka', divisionColor: '#e879f9', x: 375, y: 285, capital: false, population: '150K' },
-    { name: 'Narayanganj', division: 'Dhaka', divisionColor: '#e879f9', x: 390, y: 280, capital: false, population: '280K' },
-    { name: 'Narsingdi', division: 'Dhaka', divisionColor: '#e879f9', x: 405, y: 270, capital: false, population: '220K' },
-    { name: 'Rajbari', division: 'Dhaka', divisionColor: '#e879f9', x: 325, y: 275, capital: false, population: '100K' },
-    { name: 'Shariatpur', division: 'Dhaka', divisionColor: '#e879f9', x: 350, y: 305, capital: false, population: '110K' },
-    { name: 'Tangail', division: 'Dhaka', divisionColor: '#e879f9', x: 365, y: 235, capital: false, population: '380K' },
+    // Dhaka Division
+    { name: 'Dhaka', division: 'Dhaka', position: 'top-[48%] left-[47%]', deliveryTime: '24h', coverage: '100%' },
+    { name: 'Gazipur', division: 'Dhaka', position: 'top-[44%] left-[48%]', deliveryTime: '24h', coverage: '100%' },
+    { name: 'Narayanganj', division: 'Dhaka', position: 'top-[50%] left-[48%]', deliveryTime: '24h', coverage: '100%' },
+    { name: 'Tangail', division: 'Dhaka', position: 'top-[40%] left-[46%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Kishoreganj', division: 'Dhaka', position: 'top-[42%] left-[52%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Manikganj', division: 'Dhaka', position: 'top-[48%] left-[44%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Munshiganj', division: 'Dhaka', position: 'top-[52%] left-[46%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Narsingdi', division: 'Dhaka', position: 'top-[48%] left-[50%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Faridpur', division: 'Dhaka', position: 'top-[55%] left-[40%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Gopalganj', division: 'Dhaka', position: 'top-[60%] left-[38%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Madaripur', division: 'Dhaka', position: 'top-[58%] left-[42%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Rajbari', division: 'Dhaka', position: 'top-[52%] left-[40%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Shariatpur', division: 'Dhaka', position: 'top-[57%] left-[44%]', deliveryTime: '48-72h', coverage: '95%' },
 
-    // Chittagong Division (11 districts)
-    { name: 'Chittagong', division: 'Chittagong', divisionColor: '#84cc16', x: 510, y: 340, capital: true, population: '2.5M' },
-    { name: 'Bandarban', division: 'Chittagong', divisionColor: '#84cc16', x: 495, y: 415, capital: false, population: '40K' },
-    { name: 'Brahmanbaria', division: 'Chittagong', divisionColor: '#84cc16', x: 445, y: 285, capital: false, population: '280K' },
-    { name: 'Chandpur', division: 'Chittagong', divisionColor: '#84cc16', x: 420, y: 305, capital: false, population: '240K' },
-    { name: 'Comilla', division: 'Chittagong', divisionColor: '#84cc16', x: 460, y: 300, capital: false, population: '390K' },
-    { name: "Cox's Bazar", division: 'Chittagong', divisionColor: '#84cc16', x: 535, y: 440, capital: false, population: '220K' },
-    { name: 'Feni', division: 'Chittagong', divisionColor: '#84cc16', x: 485, y: 320, capital: false, population: '140K' },
-    { name: 'Khagrachhari', division: 'Chittagong', divisionColor: '#84cc16', x: 515, y: 395, capital: false, population: '65K' },
-    { name: 'Lakshmipur', division: 'Chittagong', divisionColor: '#84cc16', x: 465, y: 340, capital: false, population: '170K' },
-    { name: 'Noakhali', division: 'Chittagong', divisionColor: '#84cc16', x: 480, y: 350, capital: false, population: '310K' },
-    { name: 'Rangamati', division: 'Chittagong', divisionColor: '#84cc16', x: 525, y: 380, capital: false, population: '60K' },
+    // Chittagong Division  
+    { name: 'Chittagong', division: 'Chittagong', position: 'top-[58%] right-[18%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: "Cox's Bazar", division: 'Chittagong', position: 'bottom-[12%] right-[8%]', deliveryTime: '48-72h', coverage: '100%' },
+    { name: 'Comilla', division: 'Chittagong', position: 'top-[55%] left-[55%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Feni', division: 'Chittagong', position: 'top-[60%] right-[25%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Brahmanbaria', division: 'Chittagong', position: 'top-[52%] left-[54%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Rangamati', division: 'Chittagong', position: 'bottom-[28%] right-[15%]', deliveryTime: '72-96h', coverage: '90%' },
+    { name: 'Khagrachhari', division: 'Chittagong', position: 'bottom-[25%] right-[18%]', deliveryTime: '72-96h', coverage: '90%' },
+    { name: 'Bandarban', division: 'Chittagong', position: 'bottom-[18%] right-[22%]', deliveryTime: '72-96h', coverage: '85%' },
+    { name: 'Noakhali', division: 'Chittagong', position: 'top-[63%] right-[22%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Lakshmipur', division: 'Chittagong', position: 'top-[65%] right-[26%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Chandpur', division: 'Chittagong', position: 'top-[58%] left-[50%]', deliveryTime: '48-72h', coverage: '95%' },
 
-    // Rajshahi Division (8 districts)
-    { name: 'Rajshahi', division: 'Rajshahi', divisionColor: '#fbbf24', x: 265, y: 190, capital: true, population: '450K' },
-    { name: 'Bogra', division: 'Rajshahi', divisionColor: '#fbbf24', x: 295, y: 175, capital: false, population: '350K' },
-    { name: 'Chapainawabganj', division: 'Rajshahi', divisionColor: '#fbbf24', x: 245, y: 205, capital: false, population: '160K' },
-    { name: 'Joypurhat', division: 'Rajshahi', divisionColor: '#fbbf24', x: 275, y: 160, capital: false, population: '90K' },
-    { name: 'Naogaon', division: 'Rajshahi', divisionColor: '#fbbf24', x: 255, y: 170, capital: false, population: '260K' },
-    { name: 'Natore', division: 'Rajshahi', divisionColor: '#fbbf24', x: 285, y: 185, capital: false, population: '170K' },
-    { name: 'Pabna', division: 'Rajshahi', divisionColor: '#fbbf24', x: 310, y: 200, capital: false, population: '250K' },
-    { name: 'Sirajganj', division: 'Rajshahi', divisionColor: '#fbbf24', x: 325, y: 215, capital: false, population: '300K' },
+    // Rajshahi Division
+    { name: 'Rajshahi', division: 'Rajshahi', position: 'top-[35%] left-[28%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Bogra', division: 'Rajshahi', position: 'top-[30%] left-[35%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Pabna', division: 'Rajshahi', position: 'top-[38%] left-[38%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Sirajganj', division: 'Rajshahi', position: 'top-[40%] left-[40%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Natore', division: 'Rajshahi', position: 'top-[34%] left-[32%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Naogaon', division: 'Rajshahi', position: 'top-[28%] left-[30%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Chapainawabganj', division: 'Rajshahi', position: 'top-[35%] left-[24%]', deliveryTime: '72-96h', coverage: '90%' },
+    { name: 'Joypurhat', division: 'Rajshahi', position: 'top-[26%] left-[33%]', deliveryTime: '72-96h', coverage: '90%' },
 
-    // Khulna Division (10 districts)
-    { name: 'Khulna', division: 'Khulna', divisionColor: '#a78bfa', x: 275, y: 360, capital: true, population: '660K' },
-    { name: 'Bagerhat', division: 'Khulna', divisionColor: '#a78bfa', x: 255, y: 385, capital: false, population: '150K' },
-    { name: 'Chuadanga', division: 'Khulna', divisionColor: '#a78bfa', x: 225, y: 285, capital: false, population: '110K' },
-    { name: 'Jashore', division: 'Khulna', divisionColor: '#a78bfa', x: 235, y: 310, capital: false, population: '280K' },
-    { name: 'Jhenaidah', division: 'Khulna', divisionColor: '#a78bfa', x: 245, y: 295, capital: false, population: '170K' },
-    { name: 'Kushtia', division: 'Khulna', divisionColor: '#a78bfa', x: 255, y: 265, capital: false, population: '200K' },
-    { name: 'Magura', division: 'Khulna', divisionColor: '#a78bfa', x: 265, y: 295, capital: false, population: '92K' },
-    { name: 'Meherpur', division: 'Khulna', divisionColor: '#a78bfa', x: 215, y: 295, capital: false, population: '65K' },
-    { name: 'Narail', division: 'Khulna', divisionColor: '#a78bfa', x: 255, y: 325, capital: false, population: '72K' },
-    { name: 'Satkhira', division: 'Khulna', divisionColor: '#a78bfa', x: 235, y: 365, capital: false, population: '200K' },
+    // Add more districts for other divisions...
+    { name: 'Khulna', division: 'Khulna', position: 'bottom-[32%] left-[28%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Jashore', division: 'Khulna', position: 'bottom-[38%] left-[24%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Satkhira', division: 'Khulna', position: 'bottom-[30%] left-[22%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Bagerhat', division: 'Khulna', position: 'bottom-[28%] left-[30%]', deliveryTime: '48-72h', coverage: '95%' },
 
-    // Sylhet Division (4 districts)
-    { name: 'Sylhet', division: 'Sylhet', divisionColor: '#06b6d4', x: 515, y: 185, capital: true, population: '500K' },
-    { name: 'Habiganj', division: 'Sylhet', divisionColor: '#06b6d4', x: 485, y: 205, capital: false, population: '200K' },
-    { name: 'Moulvibazar', division: 'Sylhet', divisionColor: '#06b6d4', x: 505, y: 215, capital: false, population: '190K' },
-    { name: 'Sunamganj', division: 'Sylhet', divisionColor: '#06b6d4', x: 465, y: 165, capital: false, population: '240K' },
+    { name: 'Sylhet', division: 'Sylhet', position: 'top-[25%] right-[18%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Moulvibazar', division: 'Sylhet', position: 'top-[30%] right-[16%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Habiganj', division: 'Sylhet', position: 'top-[32%] right-[22%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Sunamganj', division: 'Sylhet', position: 'top-[22%] right-[28%]', deliveryTime: '72-96h', coverage: '90%' },
 
-    // Barisal Division (6 districts)
-    { name: 'Barisal', division: 'Barisal', divisionColor: '#fb7185', x: 335, y: 370, capital: true, population: '330K' },
-    { name: 'Barguna', division: 'Barisal', divisionColor: '#fb7185', x: 315, y: 415, capital: false, population: '90K' },
-    { name: 'Bhola', division: 'Barisal', divisionColor: '#fb7185', x: 365, y: 395, capital: false, population: '170K' },
-    { name: 'Jhalokati', division: 'Barisal', divisionColor: '#fb7185', x: 320, y: 365, capital: false, population: '68K' },
-    { name: 'Patuakhali', division: 'Barisal', divisionColor: '#fb7185', x: 340, y: 405, capital: false, population: '150K' },
-    { name: 'Pirojpur', division: 'Barisal', divisionColor: '#fb7185', x: 300, y: 385, capital: false, population: '110K' },
+    { name: 'Barisal', division: 'Barisal', position: 'bottom-[35%] left-[42%]', deliveryTime: '48-72h', coverage: '100%' },
+    { name: 'Patuakhali', division: 'Barisal', position: 'bottom-[28%] left-[42%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Bhola', division: 'Barisal', position: 'bottom-[32%] left-[46%]', deliveryTime: '48-72h', coverage: '95%' },
 
-    // Rangpur Division (8 districts)
-    { name: 'Rangpur', division: 'Rangpur', divisionColor: '#84d982', x: 295, y: 120, capital: true, population: '300K' },
-    { name: 'Dinajpur', division: 'Rangpur', divisionColor: '#84d982', x: 265, y: 105, capital: false, population: '300K' },
-    { name: 'Gaibandha', division: 'Rangpur', divisionColor: '#84d982', x: 315, y: 135, capital: false, population: '240K' },
-    { name: 'Kurigram', division: 'Rangpur', divisionColor: '#84d982', x: 335, y: 115, capital: false, population: '210K' },
-    { name: 'Lalmonirhat', division: 'Rangpur', divisionColor: '#84d982', x: 285, y: 90, capital: false, population: '130K' },
-    { name: 'Nilphamari', division: 'Rangpur', divisionColor: '#84d982', x: 305, y: 95, capital: false, population: '190K' },
-    { name: 'Panchagarh', division: 'Rangpur', divisionColor: '#84d982', x: 315, y: 75, capital: false, population: '100K' },
-    { name: 'Thakurgaon', division: 'Rangpur', divisionColor: '#84d982', x: 275, y: 85, capital: false, population: '140K' },
+    { name: 'Rangpur', division: 'Rangpur', position: 'top-[18%] left-[35%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Dinajpur', division: 'Rangpur', position: 'top-[15%] left-[30%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Kurigram', division: 'Rangpur', position: 'top-[15%] left-[40%]', deliveryTime: '48-72h', coverage: '95%' },
 
-    // Mymensingh Division (4 districts)
-    { name: 'Mymensingh', division: 'Mymensingh', divisionColor: '#c084fc', x: 385, y: 195, capital: true, population: '500K' },
-    { name: 'Jamalpur', division: 'Mymensingh', divisionColor: '#c084fc', x: 355, y: 180, capital: false, population: '230K' },
-    { name: 'Netrakona', division: 'Mymensingh', divisionColor: '#c084fc', x: 405, y: 175, capital: false, population: '220K' },
-    { name: 'Sherpur', division: 'Mymensingh', divisionColor: '#c084fc', x: 375, y: 165, capital: false, population: '140K' }
+    { name: 'Mymensingh', division: 'Mymensingh', position: 'top-[32%] left-[47%]', deliveryTime: '24-48h', coverage: '100%' },
+    { name: 'Netrokona', division: 'Mymensingh', position: 'top-[28%] left-[50%]', deliveryTime: '48-72h', coverage: '95%' },
+    { name: 'Jamalpur', division: 'Mymensingh', position: 'top-[30%] left-[42%]', deliveryTime: '48-72h', coverage: '95%' },
   ];
 
   const filteredDistricts = districts.filter(district =>
+    (activeTab === 'all' || district.division.toLowerCase() === activeTab) &&
     district.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSearch = () => {
-    if (filteredDistricts.length > 0) {
-      const district = filteredDistricts[0];
-      setIsSearching(true);
-      setSelectedDistrict(district);
-      setShowDropdown(false);
-      
-      setTimeout(() => {
-        setIsSearching(false);
-      }, 1000);
-    }
-  };
-
-  const handleDistrictSelect = (district) => {
-    setIsSearching(true);
-    setSelectedDistrict(district);
-    setSearchTerm(district.name);
-    setShowDropdown(false);
-    
-    setTimeout(() => {
-      setIsSearching(false);
-    }, 1000);
-  };
-
-  const handleReset = () => {
-    setSelectedDistrict(null);
-    setSearchTerm('');
-    setShowDropdown(false);
-  };
-
-  // Get divisions with their districts
-  const divisions = [
-    { name: 'Dhaka', color: '#e879f9', districts: districts.filter(d => d.division === 'Dhaka') },
-    { name: 'Chittagong', color: '#84cc16', districts: districts.filter(d => d.division === 'Chittagong') },
-    { name: 'Rajshahi', color: '#fbbf24', districts: districts.filter(d => d.division === 'Rajshahi') },
-    { name: 'Khulna', color: '#a78bfa', districts: districts.filter(d => d.division === 'Khulna') },
-    { name: 'Sylhet', color: '#06b6d4', districts: districts.filter(d => d.division === 'Sylhet') },
-    { name: 'Barisal', color: '#fb7185', districts: districts.filter(d => d.division === 'Barisal') },
-    { name: 'Rangpur', color: '#84d982', districts: districts.filter(d => d.division === 'Rangpur') },
-    { name: 'Mymensingh', color: '#c084fc', districts: districts.filter(d => d.division === 'Mymensingh') }
+  const stats = [
+    { icon: <MapPin className="w-6 h-6" />, label: 'Districts Covered', value: '64', color: 'from-red-500 to-rose-600' },
+    { icon: <Package className="w-6 h-6" />, label: 'Daily Deliveries', value: '5000+', color: 'from-blue-500 to-cyan-600' },
+    { icon: <Clock className="w-6 h-6" />, label: 'Avg Delivery', value: '24-48h', color: 'from-purple-500 to-pink-600' },
+    { icon: <TrendingUp className="w-6 h-6" />, label: 'Success Rate', value: '99.5%', color: 'from-green-500 to-emerald-600' },
   ];
 
+  const divisions = ['all', 'dhaka', 'chittagong', 'rajshahi', 'khulna', 'sylhet', 'barisal', 'rangpur', 'mymensingh'];
+
   return (
-    <div className="w-full bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 py-20">
-     <Container>
-       <div className="w-full mx-auto">
-        
+    <div className="bg-gradient-to-br from-slate-50 via-white to-gray-50 min-h-screen pt-24 pb-16">
+      <Container>
         {/* Header */}
-        <div className="text-center mb-6">
-          <div className="flex justify-between items-start mb-4">
-            <div className="text-left">
-              <div className="text-red-600 font-bold text-lg">BANGLADESH</div>
-              <div className="text-sm text-gray-600 bg-white px-3 py-1 rounded border">
-                Divisions and Districts<br/>with Major Cities
-              </div>
-            </div>
-            
-            {/* Compass */}
-            <div className="bg-white p-2 rounded-full shadow-lg">
-              <div className="relative w-8 h-8">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Navigation className="h-6 w-6 text-red-600" />
-                </div>
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 text-xs font-bold">N</div>
-                <div className="absolute top-1/2 -right-1 transform -translate-y-1/2 text-xs font-bold">E</div>
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs font-bold">S</div>
-                <div className="absolute top-1/2 -left-1 transform -translate-y-1/2 text-xs font-bold">W</div>
-              </div>
-            </div>
-          </div>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+            Nationwide{' '}
+            <span className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 bg-clip-text text-transparent">
+              Coverage
+            </span>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Delivering to every corner of Bangladesh with speed and reliability
+          </p>
         </div>
 
-        {/* Search Section */}
-        <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
-          <div className="flex gap-3">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {stats.map((stat, index) => (
+            <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center text-white mb-3`}>
+                {stat.icon}
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
+              <div className="text-sm text-gray-600">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Search and Filter */}
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search district..."
+                placeholder="Search district or city..."
                 value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  setShowDropdown(e.target.value.length > 0);
-                }}
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:border-red-500 focus:outline-none"
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 focus:outline-none transition-all"
               />
-              
-              {showDropdown && searchTerm && (
-                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded shadow-lg z-20 max-h-48 overflow-y-auto mt-1">
-                  {filteredDistricts.length > 0 ? (
-                    filteredDistricts.map((district, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleDistrictSelect(district)}
-                        className="w-full text-left p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <div 
-                            className="w-3 h-3 rounded-full" 
-                            style={{ backgroundColor: district.divisionColor }}
-                          ></div>
-                          <div>
-                            <div className="font-medium">{district.name}</div>
-                            <div className="text-sm text-gray-500">{district.division} Division</div>
-                          </div>
-                        </div>
-                      </button>
-                    ))
-                  ) : (
-                    <div className="p-3 text-gray-500 text-center">No districts found</div>
-                  )}
-                </div>
-              )}
             </div>
-            
-            <button
-              onClick={handleSearch}
-              className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-            >
-              Search
-            </button>
-            
-            {selectedDistrict && (
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
-              >
-                Reset
-              </button>
-            )}
           </div>
 
-          {/* Selected District Info */}
+          {/* Division Tabs */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {divisions.map((division) => (
+              <button
+                key={division}
+                onClick={() => setActiveTab(division)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === division
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+              >
+                {division.charAt(0).toUpperCase() + division.slice(1)}
+              </button>
+            ))}
+          </div>
+
           {selectedDistrict && (
-            <div className="mt-4 p-3 bg-gray-50 rounded border-l-4 border-red-500">
-              <div className="flex items-center space-x-3">
-                <div 
-                  className="w-4 h-4 rounded-full" 
-                  style={{ backgroundColor: selectedDistrict.divisionColor }}
-                ></div>
+            <div className="mt-4 p-4 bg-gradient-to-r from-red-50 to-rose-50 rounded-xl border-l-4 border-red-600">
+              <div className="flex items-center justify-between">
                 <div>
-                  <div className="font-semibold">{selectedDistrict.name}</div>
-                  <div className="text-sm text-gray-600">
-                    {selectedDistrict.division} Division • Population: {selectedDistrict.population}
-                    {selectedDistrict.capital && <span className="ml-2 text-red-600">• Division Capital</span>}
-                  </div>
+                  <h3 className="text-lg font-bold text-gray-900">{selectedDistrict.name}</h3>
+                  <p className="text-sm text-gray-600">
+                    {selectedDistrict.division} Division • {selectedDistrict.deliveryTime} delivery • {selectedDistrict.coverage} coverage
+                  </p>
                 </div>
+                <button
+                  onClick={() => setSelectedDistrict(null)}
+                  className="text-red-600 hover:text-red-700 font-semibold"
+                >
+                  Clear
+                </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Main Map Container */}
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="relative">
-            
-            {/* Map SVG */}
-            <svg 
-              viewBox="0 0 600 500" 
-              className={`w-full h-auto bg-gradient-to-br from-blue-50 to-blue-100 transition-all duration-1000 ${
-                selectedDistrict ? 'scale-110' : 'scale-100'
-              }`}
-              style={{
-                transformOrigin: selectedDistrict 
-                  ? `${selectedDistrict.x}px ${selectedDistrict.y}px`
-                  : 'center'
-              }}
-            >
-              {/* Country borders */}
-              <defs>
-                <pattern id="water" patternUnits="userSpaceOnUse" width="4" height="4">
-                  <rect width="4" height="4" fill="#bfdbfe"/>
-                  <path d="m0,0l2,2m0,-2l-2,2" stroke="#93c5fd" strokeWidth="0.5"/>
-                </pattern>
-              </defs>
+        {/* Map Section */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Map */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+              <div className="relative w-full aspect-square max-w-3xl mx-auto">
+                {/* Bangladesh Map Image */}
+                <Image
+                  src="/bangladesh-map.png"
+                  alt="Bangladesh Coverage Map"
+                  width={800}
+                  height={800}
+                  className="w-full h-full object-contain"
+                  priority
+                />
 
-              {/* Bay of Bengal */}
-              <rect x="0" y="420" width="600" height="80" fill="url(#water)" />
-              <text x="300" y="460" textAnchor="middle" className="fill-blue-700 text-lg font-bold">Bay of Bengal</text>
-
-              {/* Neighboring countries labels */}
-              <text x="50" y="50" className="fill-gray-600 text-sm font-bold">NEPAL</text>
-              <text x="550" y="50" className="fill-red-600 text-lg font-bold">BHUTAN</text>
-              <text x="50" y="250" className="fill-gray-600 text-lg font-bold tracking-widest">I N D I A</text>
-              <text x="580" y="200" className="fill-gray-600 text-lg font-bold tracking-widest transform rotate-90">I N D I A</text>
-              <text x="580" y="450" className="fill-gray-600 text-sm font-bold">MYANMAR</text>
-
-              {/* Division boundaries and fills */}
-              {divisions.map((division, divIndex) => (
-                <g key={divIndex}>
-                  {/* Division area (simplified shapes for each division) */}
-                  {division.name === 'Dhaka' && (
-                    <path 
-                      d="M300,220 L420,220 L440,280 L400,320 L320,320 L290,280 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Chittagong' && (
-                    <path 
-                      d="M440,280 L580,280 L580,450 L480,450 L440,380 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Rajshahi' && (
-                    <path 
-                      d="M200,140 L340,140 L340,220 L300,220 L200,220 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Khulna' && (
-                    <path 
-                      d="M180,240 L300,240 L320,320 L240,380 L180,320 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Sylhet' && (
-                    <path 
-                      d="M440,140 L580,140 L580,220 L440,220 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Barisal' && (
-                    <path 
-                      d="M280,320 L400,320 L420,420 L300,420 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Rangpur' && (
-                    <path 
-                      d="M240,60 L380,60 L380,140 L240,140 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-                  {division.name === 'Mymensingh' && (
-                    <path 
-                      d="M340,140 L440,140 L440,220 L340,220 Z" 
-                      fill={division.color} 
-                      fillOpacity="0.3" 
-                      stroke={division.color} 
-                      strokeWidth="2"
-                    />
-                  )}
-
-                  {/* Division Labels */}
-                  <text 
-                    x={division.districts[0]?.x || 300} 
-                    y={division.districts[0]?.y - 20 || 200} 
-                    textAnchor="middle" 
-                    className="fill-gray-700 text-sm font-bold uppercase tracking-wide"
+                {/* Interactive District Markers */}
+                {filteredDistricts.map((district, index) => (
+                  <div
+                    key={index}
+                    className={`absolute ${district.position} transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10`}
+                    onClick={() => setSelectedDistrict(district)}
                   >
-                    {division.name}
-                  </text>
-                </g>
-              ))}
-
-              {/* District points and labels */}
-              {districts.map((district, index) => (
-                <g key={index}>
-                  {/* District point */}
-                  <circle
-                    cx={district.x}
-                    cy={district.y}
-                    r={selectedDistrict?.name === district.name ? "6" : district.capital ? "4" : "3"}
-                    fill={selectedDistrict?.name === district.name ? "#dc2626" : district.capital ? "#dc2626" : "#374151"}
-                    stroke="white"
-                    strokeWidth="1"
-                    className={`cursor-pointer transition-all duration-300 ${
-                      selectedDistrict?.name === district.name ? 'animate-pulse' : 'hover:scale-150'
-                    }`}
-                    onClick={() => handleDistrictSelect(district)}
-                  />
-                  
-                  {/* District label */}
-                  <text
-                    x={district.x}
-                    y={district.y - (district.capital ? 8 : 6)}
-                    textAnchor="middle"
-                    className={`text-xs fill-gray-700 font-medium pointer-events-none ${
-                      selectedDistrict?.name === district.name ? 'text-sm font-bold fill-red-700' : ''
-                    }`}
-                  >
-                    {district.name}
-                  </text>
-                  
-                  {/* Capital star */}
-                  {district.capital && (
-                    <text
-                      x={district.x + 8}
-                      y={district.y - 8}
-                      className="text-red-600 text-xs pointer-events-none"
-                    >
-                      ★
-                    </text>
-                  )}
-                </g>
-              ))}
-
-              {/* International borders */}
-              <path 
-                d="M100,50 L550,50 L580,80 L580,420 L400,450 L200,430 L100,350 L80,200 Z" 
-                fill="none" 
-                stroke="#dc2626" 
-                strokeWidth="3"
-                strokeDasharray="5,5"
-              />
-            </svg>
-
-            {/* Loading Overlay */}
-            {isSearching && (
-              <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center z-30">
-                <div className="bg-white rounded-lg p-6 flex items-center space-x-3 shadow-lg">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-red-600"></div>
-                  <span className="text-gray-700 font-medium">
-                    Locating {selectedDistrict?.name}...
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Legend */}
-          <div className="bg-gray-50 p-4 border-t">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h3 className="font-bold text-gray-800 mb-2">LEGEND</h3>
-                <div className="space-y-1 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-1 bg-red-600 border-dashed border-red-600"></div>
-                    <span>International Boundary</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-1 bg-purple-500"></div>
-                    <span>Division Boundary</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-                    <span>Division Capital</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-                    <span>Major Cities</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="font-bold text-gray-800 mb-2">DIVISIONS</h3>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  {divisions.map((division, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div 
-                        className="w-3 h-3 rounded" 
-                        style={{ backgroundColor: division.color }}
-                      ></div>
-                      <span>{division.name} ({division.districts.length})</span>
+                    {/* Pulse Animation */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className={`w-4 h-4 rounded-full animate-ping opacity-75 ${selectedDistrict?.name === district.name ? 'bg-red-600' : 'bg-blue-500'
+                        }`}></div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            {/* Stats */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex justify-between items-center text-sm text-gray-600">
-                <span>Click on any district to view details</span>
-                <div className="flex space-x-6">
-                  <span><strong>64</strong> Districts</span>
-                  <span><strong>8</strong> Divisions</span>
-                  <span><strong>24/7</strong> Service</span>
+
+                    {/* Static Pin */}
+                    <div className={`relative w-4 h-4 rounded-full border-2 border-white shadow-lg ${selectedDistrict?.name === district.name ? 'bg-red-600 w-6 h-6' : 'bg-blue-600'
+                      }`}></div>
+
+                    {/* Hover Tooltip */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      <div className="bg-gray-900 text-white text-xs font-semibold px-3 py-2 rounded-lg whitespace-nowrap shadow-xl">
+                        {district.name}
+                        <div className="text-gray-300 text-xs">{district.deliveryTime}</div>
+                        <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* 100% Coverage Badge */}
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-red-600 to-rose-600 text-white px-4 py-2 rounded-full shadow-lg">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span className="font-bold text-sm">100% Coverage</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Small Location Map */}
-          <div className="absolute bottom-4 left-4 bg-white rounded shadow-lg p-2" style={{ width: '120px', height: '80px' }}>
-            <div className="text-xs font-bold text-center mb-1">ASIA</div>
-            <svg viewBox="0 0 100 60" className="w-full h-full">
-              <rect width="100" height="60" fill="#e0f2fe" />
-              <path d="M20,15 L80,15 L80,45 L20,45 Z" fill="#94a3b8" />
-              <rect x="35" y="25" width="8" height="6" fill="#dc2626" />
-              <text x="39" y="35" className="text-xs fill-white font-bold">BD</text>
-            </svg>
+          {/* District List */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 max-h-[600px] overflow-y-auto">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-red-600" />
+                Districts ({filteredDistricts.length})
+              </h3>
+              <div className="space-y-2">
+                {filteredDistricts.map((district, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedDistrict(district)}
+                    className={`w-full text-left p-3 rounded-lg transition-all ${selectedDistrict?.name === district.name
+                        ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md'
+                        : 'bg-gray-50 hover:bg-gray-100'
+                      }`}
+                  >
+                    <div className="font-semibold">{district.name}</div>
+                    <div className={`text-sm ${selectedDistrict?.name === district.name ? 'text-red-100' : 'text-gray-600'}`}>
+                      {district.division} • {district.deliveryTime}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-     </Container>
+
+        {/* Bottom CTA */}
+        <div className="mt-12 bg-gradient-to-r from-red-600 to-rose-600 rounded-2xl p-8 text-center text-white shadow-2xl">
+          <h2 className="text-3xl font-bold mb-3">Ready to Start Delivering?</h2>
+          <p className="text-red-100 mb-6">Join thousands of merchants using our nationwide network</p>
+          <button className="bg-white text-red-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl">
+            Get Started Today
+          </button>
+        </div>
+      </Container>
     </div>
   );
 };
 
-export default CoverageMap;
-
-
+export default CoveragePage;

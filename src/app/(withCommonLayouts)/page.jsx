@@ -1,4 +1,4 @@
-import AboutUsSection from "../../UI/HomePage/AboutUs";
+import CoverageSection from "../../UI/HomePage/CoverageSection";
 import BeARider from "../../UI/HomePage/BeARider";
 import CustomerReviews from "../../UI/HomePage/CustomerReviews";
 import HeroSection from "../../UI/HomePage/HeroSection";
@@ -14,7 +14,7 @@ const HomePage = () => {
       <HeroSection />
       <StatsSection />
       <Process />
-      <AboutUsSection />
+      <CoverageSection />
       <OurServices />
       <CustomerReviews />
       <BeARider />

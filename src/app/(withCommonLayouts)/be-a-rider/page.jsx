@@ -2,9 +2,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import ApplyRidere from "../../../assets/apply-rider.png";
-import { User, Mail, Phone, Calendar } from "lucide-react";
+import { User, Mail, Phone, Calendar, MapPin, CheckCircle, DollarSign, Clock, Shield, ChevronRight, Star } from "lucide-react";
 import axiosInstance from "../../../lib/axiosInstance";
 import toast, { Toaster } from "react-hot-toast";
+import Container from "../../../Components/Shared/Container/Container";
+import { motion } from "framer-motion";
 
 export default function BeARider() {
   const divisions = {
@@ -69,149 +71,349 @@ export default function BeARider() {
     }
   };
 
+  const benefits = [
+    {
+      icon: <DollarSign className="w-8 h-8 text-red-600" />,
+      title: "Competitive Earnings",
+      desc: "Earn competitive rates per delivery with weekly payouts and performance bonuses.",
+    },
+    {
+      icon: <Clock className="w-8 h-8 text-red-600" />,
+      title: "Flexible Schedule",
+      desc: "Choose your own hours. Work full-time, part-time, or just on weekends.",
+    },
+    {
+      icon: <Shield className="w-8 h-8 text-red-600" />,
+      title: "Insurance Coverage",
+      desc: "Get accident insurance coverage while you are on the job for peace of mind.",
+    },
+  ];
+
+  const steps = [
+    { number: "01", title: "Apply Online", desc: "Fill out the simple application form below." },
+    { number: "02", title: "Screening", desc: "We review your details and contact you." },
+    { number: "03", title: "Training", desc: "Attend a short training session." },
+    { number: "04", title: "Start Earning", desc: "Get your kit and start delivering!" },
+  ];
+
   return (
-    <section className="bg-gray-50 rounded-xl p-8 md:p-12 py-20 mt-0 lg:mt-10">
-      {/* Toaster */}
+    <div className="bg-gray-50 min-h-screen pt-20">
       <Toaster position="top-right" reverseOrder={false} />
 
-      {/* Heading */}
-      <div className="text-center md:text-left mb-6">
-        <h2 className="text-3xl font-bold text-gray-900">Be a Rider</h2>
-        <p className="mt-2 text-gray-600 max-w-2xl">
-          Enjoy fast, reliable parcel delivery with real-time tracking and zero
-          hassle. From personal packages to business shipments — we deliver on
-          time, every time.
-        </p>
-      </div>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-red-900 text-white py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+        <Container>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+            <div className="md:w-1/2 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="inline-block py-1 px-3 rounded-full bg-red-600/20 border border-red-500/50 text-red-300 text-sm font-semibold mb-4">
+                  Join Our Fleet
+                </span>
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                  Drive Your Way to <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">
+                    Financial Freedom
+                  </span>
+                </h1>
+                <p className="text-lg text-gray-300 max-w-xl">
+                  Become a Transify rider partner today. Enjoy flexible hours, great earnings, and be part of the fastest-growing logistics network in Bangladesh.
+                </p>
+              </motion.div>
 
-      <hr className="my-6 border-gray-200" />
-
-      {/* Content Section */}
-      <div className="grid md:grid-cols-2 gap-10 items-center">
-        {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 bg-white shadow-lg p-6 rounded-xl border border-gray-200"
-        >
-          <h3 className="text-lg font-semibold text-gray-800">
-            Tell us about yourself
-          </h3>
-
-          {/* Name + Age */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="relative flex items-center">
-              <User className="absolute left-3 text-gray-400" size={20} />
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                className="w-full border rounded-xl px-10 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition shadow-sm"
-                required
-              />
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex flex-wrap gap-4"
+              >
+                <a href="#apply-form" className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-600/30 transition-all transform hover:-translate-y-1">
+                  Apply Now
+                </a>
+                <div className="flex items-center gap-2 px-6 py-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/10">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-gray-300 border-2 border-slate-800"></div>
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium">500+ Riders Joined</span>
+                </div>
+              </motion.div>
             </div>
 
-            <div className="relative flex items-center">
-              <Calendar className="absolute left-3 text-gray-400" size={20} />
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                placeholder="Your Age"
-                className="w-full border rounded-xl px-10 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition shadow-sm"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Email + Contact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="relative flex items-center">
-              <Mail className="absolute left-3 text-gray-400" size={20} />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                className="w-full border rounded-xl px-10 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition shadow-sm"
-                required
-              />
-            </div>
-
-            <div className="relative flex items-center">
-              <Phone className="absolute left-3 text-gray-400" size={20} />
-              <input
-                type="text"
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-                placeholder="Contact"
-                className="w-full border rounded-xl px-10 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition shadow-sm"
-                required
-              />
+            <div className="md:w-1/2 relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7 }}
+                className="relative z-10"
+              >
+                <Image
+                  src={ApplyRidere}
+                  alt="Delivery Rider"
+                  width={500}
+                  height={500}
+                  className="object-contain drop-shadow-2xl"
+                />
+              </motion.div>
+              {/* Decorative blobs */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-600/20 blur-3xl rounded-full -z-10"></div>
             </div>
           </div>
+        </Container>
+      </section>
 
-          {/* Division */}
-          <select
-            name="division"
-            value={formData.division}
-            onChange={handleDivisionChange}
-            className="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition shadow-sm"
-            required
-          >
-            <option value="">Select Division</option>
-            {Object.keys(divisions).map((div) => (
-              <option key={div} value={div}>
-                {div}
-              </option>
+      {/* Benefits Section */}
+      <section className="py-20">
+        <Container>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Ride with Transify?</h2>
+            <p className="text-gray-600">We care about our riders. That's why we offer the best benefits in the industry to help you succeed.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1 group"
+              >
+                <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors duration-300">
+                  <div className="group-hover:text-white transition-colors duration-300">
+                    {benefit.icon}
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{benefit.desc}</p>
+              </motion.div>
             ))}
-          </select>
+          </div>
+        </Container>
+      </section>
 
-          {/* District */}
-          {districts.length > 0 && (
-            <select
-              name="district"
-              value={formData.district}
-              onChange={handleChange}
-              className="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition shadow-sm"
-              required
-            >
-              <option value="">Select District</option>
-              {districts.map((dist) => (
-                <option key={dist} value={dist}>
-                  {dist}
-                </option>
-              ))}
-            </select>
-          )}
+      {/* How it Works */}
+      <section className="py-20 bg-white">
+        <Container>
+          <div className="flex flex-col md:flex-row gap-16 items-center">
+            <div className="md:w-1/2">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Simple Steps to Start</h2>
+              <p className="text-gray-600 mb-10">Getting started is easy. Just follow these simple steps and you'll be on the road in no time.</p>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition"
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
+              <div className="space-y-8">
+                {steps.map((step, index) => (
+                  <div key={index} className="flex gap-6">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-lg shadow-lg">
+                      {step.number}
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h4>
+                      <p className="text-gray-600">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="md:w-1/2 bg-gray-50 rounded-3xl p-8 border border-gray-100 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-red-100 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
-        {/* Rider Image */}
-        <div className="flex justify-center">
-          <Image
-            src={ApplyRidere}
-            alt="Rider"
-            width={400}
-            height={450}
-            className="mt-0 md:mt-0 lg:mt-28"
-          />
-        </div>
-      </div>
-    </section>
+              <div className="relative z-10">
+                <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                      <DollarSign size={24} />
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-500">Weekly Earnings</div>
+                      <div className="text-2xl font-bold text-gray-900">৳ 12,500</div>
+                    </div>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="bg-green-500 h-2 rounded-full w-[75%]"></div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl shadow-xl p-6 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                      <CheckCircle size={24} />
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-500">Completed Deliveries</div>
+                      <div className="text-2xl font-bold text-gray-900">142</div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-500 mt-2">
+                    <span>This Week</span>
+                    <span className="text-green-600 font-medium">+12%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Application Form Section */}
+      <section id="apply-form" className="py-20 bg-gray-50">
+        <Container>
+          <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+            <div className="grid md:grid-cols-5">
+              <div className="md:col-span-2 bg-slate-900 text-white p-10 flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-bold mb-4">Join the Team</h3>
+                  <p className="text-slate-300 mb-8">Fill out the form to start your application process. It takes less than 2 minutes.</p>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-slate-300">
+                      <CheckCircle size={18} className="text-red-500" />
+                      <span>Quick Approval</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-slate-300">
+                      <CheckCircle size={18} className="text-red-500" />
+                      <span>Training Provided</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-slate-300">
+                      <CheckCircle size={18} className="text-red-500" />
+                      <span>Welcome Bonus</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative z-10 mt-10">
+                  <div className="text-sm text-slate-400">Questions? Call us</div>
+                  <div className="text-xl font-bold text-white">+880 1234 567890</div>
+                </div>
+              </div>
+
+              <div className="md:col-span-3 p-10">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Application Form</h3>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Full Name</label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="John Doe"
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition bg-gray-50 focus:bg-white"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Age</label>
+                      <div className="relative">
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <input
+                          type="number"
+                          name="age"
+                          value={formData.age}
+                          onChange={handleChange}
+                          placeholder="25"
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition bg-gray-50 focus:bg-white"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Email Address</label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="john@example.com"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition bg-gray-50 focus:bg-white"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Phone Number</label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                      <input
+                        type="text"
+                        name="contact"
+                        value={formData.contact}
+                        onChange={handleChange}
+                        placeholder="017..."
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition bg-gray-50 focus:bg-white"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Division</label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <select
+                          name="division"
+                          value={formData.division}
+                          onChange={handleDivisionChange}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition bg-gray-50 focus:bg-white appearance-none"
+                          required
+                        >
+                          <option value="">Select Division</option>
+                          {Object.keys(divisions).map((div) => (
+                            <option key={div} value={div}>{div}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">District</label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <select
+                          name="district"
+                          value={formData.district}
+                          onChange={handleChange}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition bg-gray-50 focus:bg-white appearance-none"
+                          required
+                          disabled={!districts.length}
+                        >
+                          <option value="">Select District</option>
+                          {districts.map((dist) => (
+                            <option key={dist} value={dist}>{dist}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-1 mt-4"
+                  >
+                    {loading ? "Submitting Application..." : "Submit Application"}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </div>
   );
 }
-
-

@@ -1,209 +1,235 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Search } from "lucide-react";
-import { FaCarSide, FaHome, FaMotorcycle, FaBoxOpen, FaMapMarkerAlt } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Menu, X, Package, MapPin, Bike, Home, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const { data: session } = useSession();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
-    handleResize();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Public Links
-  const renderNavLinks = () => (
-    <>
-      <Link href="/" className="flex items-center gap-1">
-        {isScrolled ? <FaHome /> : "Home"}
-      </Link>
-      <Link href="/be-a-rider" className="flex items-center gap-1">
-        {isScrolled ? <FaMotorcycle /> : "Be a Rider"}
-      </Link>
-      <Link href="/send-parcel" className="flex items-center gap-1">
-        {isScrolled ? <FaBoxOpen /> : "Send Parcel"}
-      </Link>
-      <Link href="/coverage" className="flex items-center gap-1">
-        {isScrolled ? <FaMapMarkerAlt /> : "Coverage"}
-      </Link>
-    </>
-  );
+  const navLinks = [
+    { href: "/", label: "Home", icon: <Home className="w-4 h-4" /> },
+    { href: "/coverage", label: "Coverage", icon: <MapPin className="w-4 h-4" /> },
+    { href: "/send-parcel", label: "Send Parcel", icon: <Package className="w-4 h-4" /> },
+    { href: "/be-a-rider", label: "Be a Rider", icon: <Bike className="w-4 h-4" /> },
+  ];
 
   return (
-    <motion.nav
-      initial={{ width: "100%", borderRadius: 0 }}
-      animate={
-        !isMobile && isScrolled
-          ? { width: "65%", borderRadius: "9999px", marginTop: "10px" }
-          : { width: "100%", borderRadius: 0, marginTop: 0 }
-      }
-      transition={{ duration: 0.5 }}
-      className="
-        fixed top-0 left-0 right-0 mx-auto 
-        px-6 py-3 flex items-center justify-between z-50
-        bg-white/95 md:bg-white/70 md:backdrop-blur-md
-      "
-    >
-      {/* Logo + Title */}
-      <div className="flex items-center gap-2">
-        <span className="text-2xl font-bold text-red-600">
-          <FaCarSide />
-        </span>
-        {!isScrolled && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-xl font-bold text-gray-900"
-          >
-            Transify
-          </motion.span>
-        )}
-      </div>
-
-      {/* Desktop Links */}
-      <div className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
-        {renderNavLinks()}
-      </div>
-
-      {/* Search (Desktop only) */}
-      <motion.div
-        animate={
-          !isMobile && isScrolled ? { width: "100px" } : { width: "180px" }
-        }
-        transition={{ duration: 0.4 }}
-        className="hidden md:flex items-center border border-gray-300 rounded-full px-3 py-1 
-                   bg-white/20 backdrop-blur-lg shadow-sm overflow-hidden"
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+          ? "bg-white/95 backdrop-blur-md shadow-lg"
+          : "bg-transparent"
+          }`}
       >
-        <Search size={18} className="text-gray-600" />
-        <input
-          type="text"
-          placeholder="Search"
-          className="outline-none px-2 text-sm w-full bg-transparent text-gray-900 placeholder-gray-600"
-        />
-      </motion.div>
-
-      {/* Right Side (Desktop) */}
-      <div className="hidden md:flex items-center gap-4">
-        <Link
-          href="/dashboard"
-          className="text-gray-700 font-medium hover:text-red-600"
-        >
-          Dashboard
-        </Link>
-
-        {session ? (
-          <div className="dropdown dropdown-end">
-            <button className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center">
-                <span className="text-sm font-bold text-gray-700">
-                  {session?.user?.name?.[0]?.toUpperCase() || "U"}
-                </span>
-              </div>
-              <span className="text-gray-800 font-medium">
-                {session?.user?.name || session?.user?.email}
-              </span>
-            </button>
-            <ul className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-56">
-              <li className="px-2 py-1 text-sm text-gray-700">
-                Signed in as
-                <div className="font-semibold truncate">
-                  {session?.user?.email}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-rose-600 rounded-lg blur opacity-75 "></div>
+                <div className="relative bg-gradient-to-r from-red-600 to-rose-600 p-2 rounded-lg">
+                  <Package className="w-6 h-6 text-white" />
                 </div>
-              </li>
-              <li>
-                <button 
-                  onClick={() => {
-                    console.log("Logout button clicked");
-                    signOut({ callbackUrl: "/" });
-                  }} 
-                  className="text-red-600"
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Link
-              href="/login"
-              className="px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white text-sm font-semibold shadow-sm"
-            >
-              Sign In
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-red-600 to-rose-600 bg-clip-text text-transparent">
+                Transify
+              </span>
             </Link>
-            <Link
-              href="/register"
-              className="px-4 py-2 rounded-full border border-gray-900 text-gray-900 text-sm font-semibold hover:bg-gray-900 hover:text-white transition"
-            >
-              Sign Up
-            </Link>
-          </div>
-        )}
-      </div>
 
-      {/*  Mobile Hamburger Menu */}
-      <div className="dropdown dropdown-end md:hidden">
-        <label tabIndex={0} className="btn btn-ghost btn-circle text-gray-800">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </label>
-        <ul
-          tabIndex={0}
-          className="menu dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-40 space-y-1"
-        >
-          <li>{renderNavLinks()}</li>
-          <li>
-            <Link href="/dashboard">Dashboard</Link>
-          </li>
-          {session ? (
-            <li>
-              <button
-                onClick={() => {
-                  signOut({ callbackUrl: "/" });
-                }}
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 font-medium group"
+                >
+                  <span className="group-hover:scale-110 transition-transform">
+                    {link.icon}
+                  </span>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Right Side Actions */}
+            <div className="hidden md:flex items-center gap-4">
+              {/* Search Bar */}
+              <div className="relative group">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-red-600 transition-colors" />
+                <input
+                  type="text"
+                  placeholder="Track parcel..."
+                  className="pl-10 pr-4 py-2 bg-gray-100 border border-transparent rounded-lg focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-200 focus:outline-none transition-all w-40 focus:w-56"
+                />
+              </div>
+
+              {/* Dashboard Link */}
+              <Link
+                href="/dashboard"
+                className="text-gray-700 hover:text-red-600 font-medium transition-colors"
               >
-                Logout
-              </button>
-            </li>
-          ) : (
-            <>
-              <li>
-                <Link href="/login">Sign In</Link>
-              </li>
-              <li>
-                <Link href="/register">Sign Up</Link>
-              </li>
-            </>
+                Dashboard
+              </Link>
+
+              {/* User Section */}
+              {session ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-all"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-600 to-rose-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                      {session?.user?.name?.[0]?.toUpperCase() || "U"}
+                    </div>
+                    <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform ${isUserDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isUserDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
+                      >
+                        <div className="p-4 bg-gradient-to-r from-red-50 to-rose-50 border-b border-gray-200">
+                          <div className="font-semibold text-gray-900">{session?.user?.name || "User"}</div>
+                          <div className="text-sm text-gray-600 truncate">{session?.user?.email}</div>
+                        </div>
+                        <button
+                          onClick={() => signOut({ callbackUrl: "/" })}
+                          className="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors font-medium"
+                        >
+                          Sign Out
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link
+                    href="/login"
+                    className="px-4 py-2 text-gray-700 hover:text-red-600 font-medium transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="px-5 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg font-semibold shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-gray-700" />
+              ) : (
+                <Menu className="w-6 h-6 text-gray-700" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white border-t border-gray-200 shadow-lg"
+            >
+              <div className="px-4 py-4 space-y-2">
+                {/* Mobile Nav Links */}
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all"
+                  >
+                    {link.icon}
+                    {link.label}
+                  </Link>
+                ))}
+
+                {/* Mobile Dashboard Link */}
+                <Link
+                  href="/dashboard"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all"
+                >
+                  <Package className="w-4 h-4" />
+                  Dashboard
+                </Link>
+
+                {/* Mobile Auth */}
+                <div className="pt-4 border-t border-gray-200 space-y-2">
+                  {session ? (
+                    <>
+                      <div className="px-4 py-2 bg-gray-50 rounded-lg">
+                        <div className="font-semibold text-gray-900">{session?.user?.name}</div>
+                        <div className="text-sm text-gray-600 truncate">{session?.user?.email}</div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          signOut({ callbackUrl: "/" });
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                      >
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block px-4 py-3 text-center border-2 border-red-600 text-red-600 rounded-lg font-semibold hover:bg-red-50 transition-colors"
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        href="/register"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block px-4 py-3 text-center bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            </motion.div>
           )}
-        </ul>
-      </div>
-    </motion.nav>
+        </AnimatePresence>
+      </motion.nav>
+
+      {/* Spacer removed */}
+    </>
   );
 }
