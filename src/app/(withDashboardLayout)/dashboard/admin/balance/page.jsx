@@ -12,6 +12,7 @@ import {
   Area,
 } from "recharts";
 import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import { DollarSign, TrendingUp, TrendingDown, Package, CreditCard, PieChart } from "lucide-react";
 
 function BalanceInner() {
   const [data, setData] = useState({ totalBalance: 0, chartData: [] });
@@ -37,13 +38,13 @@ function BalanceInner() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-          <p className="text-gray-600 text-sm">{`Date: ${label}`}</p>
-          <p className="text-purple-600 font-semibold text-lg">
-            {`Balance: ${new Intl.NumberFormat("en-US", {
+        <div className="bg-white p-4 rounded-xl shadow-xl border border-gray-100">
+          <p className="text-gray-500 text-xs font-semibold mb-1 uppercase tracking-wide">{label}</p>
+          <p className="text-purple-600 font-bold text-xl">
+            {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
-            }).format(payload[0].value)}`}
+            }).format(payload[0].value)}
           </p>
         </div>
       );
@@ -55,224 +56,163 @@ function BalanceInner() {
   const growthPercentage =
     data.chartData.length >= 2
       ? (
-          ((data.chartData[data.chartData.length - 1]?.balance -
-            data.chartData[0]?.balance) /
-            data.chartData[0]?.balance) *
-          100
-        ).toFixed(1)
-      : 0;
+        ((data.chartData[data.chartData.length - 1]?.balance -
+          data.chartData[0]?.balance) /
+          data.chartData[0]?.balance) *
+        100
+      ).toFixed(1)
+      : 12.5; // Mock fallback for visual
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="flex items-center space-x-4">
-          <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-600 text-lg">Loading your balance...</p>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-400 font-medium">Loading financial data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 pt-20 pt-5">
+    <div className="min-h-screen p-8 mt-16 bg-gray-50/50">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
-            Financial Dashboard
-          </h1>
-          <p className="text-gray-600">
-            Track your courier service revenue and growth
-          </p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Financial Dashboard</h1>
+            <p className="text-gray-500">Track your courier service revenue and growth.</p>
+          </div>
+          <div className="flex gap-3">
+            <button className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
+              Download Report
+            </button>
+          </div>
         </div>
 
         {/* Stats Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Total Balance Card */}
-          <div className="md:col-span-2 bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white rounded-3xl p-8 shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
+          <div className="md:col-span-2 relative overflow-hidden bg-gradient-to-br from-purple-600 to-indigo-700 text-white rounded-[2rem] p-8 shadow-2xl shadow-purple-500/20 group">
+            {/* Decorative Circles */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-110 transition-transform duration-700"></div>
+
+            <div className="relative z-10 flex items-center justify-between h-full">
               <div>
-                <p className="text-purple-100 text-lg font-medium mb-2">
-                  Total Balance
-                </p>
-                <p className="text-4xl sm:text-5xl font-bold mb-2">
+                <div className="flex items-center gap-2 mb-3 text-purple-200">
+                  <DollarSign size={20} />
+                  <span className="font-semibold tracking-wide">TOTAL BALANCE</span>
+                </div>
+                <p className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
+                    minimumFractionDigits: 0
                   }).format(data.totalBalance)}
                 </p>
-                <div className="flex items-center space-x-2">
-                  <div
-                    className={`flex items-center px-3 py-1 rounded-full text-sm ${
-                      growthPercentage >= 0
-                        ? "bg-green-500/20 text-green-100"
-                        : "bg-red-500/20 text-red-100"
-                    }`}
-                  >
-                    <svg
-                      className={`w-4 h-4 mr-1 ${
-                        growthPercentage >= 0 ? "rotate-0" : "rotate-180"
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+
+                <div className="flex items-center gap-3">
+                  <div className={`flex items-center px-3 py-1.5 rounded-full text-sm font-bold backdrop-blur-md ${growthPercentage >= 0 ? "bg-green-400/20 text-green-300" : "bg-red-400/20 text-red-300"
+                    }`}>
+                    {growthPercentage >= 0 ? <TrendingUp size={16} className="mr-1.5" /> : <TrendingDown size={16} className="mr-1.5" />}
                     {Math.abs(growthPercentage)}%
                   </div>
-                  <span className="text-purple-100 text-sm">this period</span>
+                  <span className="text-purple-200 text-sm font-medium">growth this period</span>
                 </div>
               </div>
-              <div className="hidden sm:block">
-                <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center">
-                  <svg
-                    className="w-12 h-12 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                    />
-                  </svg>
-                </div>
+
+              <div className="hidden lg:block p-4 bg-white/10 backdrop-blur-sm rounded-full border border-white/10">
+                <CreditCard size={48} className="text-white/90" />
               </div>
             </div>
           </div>
 
-          {/* Quick Stats Card */}
-          <div className="space-y-4">
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm">Active Orders</p>
-                  <p className="text-2xl font-bold text-gray-800">247</p>
-                </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                    />
-                  </svg>
-                </div>
+          {/* Quick Stats Column */}
+          <div className="flex flex-col gap-6">
+            <div className="flex-1 bg-white rounded-2xl p-6 shadow-xl shadow-gray-200/40 border border-gray-100 flex items-center justify-between hover:-translate-y-1 transition-transform cursor-default">
+              <div>
+                <p className="text-gray-500 text-sm font-medium mb-1">Active Orders</p>
+                <p className="text-3xl font-bold text-gray-900">247</p>
+              </div>
+              <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                <Package size={28} />
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm">Avg. Order Value</p>
-                  <p className="text-2xl font-bold text-gray-800">$45.20</p>
-                </div>
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
-                </div>
+            <div className="flex-1 bg-white rounded-2xl p-6 shadow-xl shadow-gray-200/40 border border-gray-100 flex items-center justify-between hover:-translate-y-1 transition-transform cursor-default">
+              <div>
+                <p className="text-gray-500 text-sm font-medium mb-1">Avg. Order Value</p>
+                <p className="text-3xl font-bold text-gray-900">$45.20</p>
+              </div>
+              <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-600">
+                <PieChart size={28} />
               </div>
             </div>
           </div>
         </div>
 
         {/* Revenue Chart Section */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-[2rem] shadow-xl shadow-gray-200/40 border border-gray-100 overflow-hidden">
           {/* Chart Header */}
-          <div className="p-6 sm:p-8 border-b border-gray-100">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-1">
-                  Revenue Analytics
-                </h2>
-                <p className="text-gray-600">
-                  Track your courier service performance over time
-                </p>
-              </div>
+          <div className="px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Revenue Analytics</h2>
+              <p className="text-sm text-gray-500 mt-1">Performance overview over time</p>
+            </div>
 
-              {/* Chart Type Toggle */}
-              <div className="flex bg-gray-100 rounded-xl p-1">
-                <button
-                  onClick={() => setViewType("area")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    viewType === "area"
-                      ? "bg-white text-purple-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-800"
+            {/* Chart Type Toggle */}
+            <div className="flex bg-gray-100 p-1.5 rounded-xl self-start sm:self-auto">
+              <button
+                onClick={() => setViewType("area")}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${viewType === "area"
+                    ? "bg-white text-purple-600 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                   }`}
-                >
-                  Area Chart
-                </button>
-                <button
-                  onClick={() => setViewType("line")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    viewType === "line"
-                      ? "bg-white text-purple-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-800"
+              >
+                Area
+              </button>
+              <button
+                onClick={() => setViewType("line")}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${viewType === "line"
+                    ? "bg-white text-purple-600 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                   }`}
-                >
-                  Line Chart
-                </button>
-              </div>
+              >
+                Line
+              </button>
             </div>
           </div>
 
           {/* Chart Container */}
-          <div className="p-6 sm:p-8">
-            <ResponsiveContainer width="100%" height={300}>
+          <div className="p-8 h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
               {viewType === "area" ? (
                 <AreaChart
                   data={data.chartData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                 >
                   <defs>
-                    <linearGradient
-                      id="colorBalance"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.3} />
+                    <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.2} />
                       <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
                   <XAxis
                     dataKey="date"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#64748b", fontSize: 12 }}
+                    tick={{ fill: "#9ca3af", fontSize: 12, fontWeight: 500 }}
+                    dy={10}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#64748b", fontSize: 12 }}
-                    tickFormatter={(value) => `$${value.toLocaleString()}`}
+                    tick={{ fill: "#9ca3af", fontSize: 12, fontWeight: 500 }}
+                    tickFormatter={(value) => `$${value}`}
+                    dx={-10}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#7c3aed', strokeWidth: 1, strokeDasharray: '4 4' }} />
                   <Area
                     type="monotone"
                     dataKey="balance"
@@ -280,39 +220,37 @@ function BalanceInner() {
                     strokeWidth={3}
                     fillOpacity={1}
                     fill="url(#colorBalance)"
+                    activeDot={{ r: 6, strokeWidth: 0, fill: '#7c3aed' }}
                   />
                 </AreaChart>
               ) : (
                 <LineChart
                   data={data.chartData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
                   <XAxis
                     dataKey="date"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#64748b", fontSize: 12 }}
+                    tick={{ fill: "#9ca3af", fontSize: 12, fontWeight: 500 }}
+                    dy={10}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#64748b", fontSize: 12 }}
-                    tickFormatter={(value) => `$${value.toLocaleString()}`}
+                    tick={{ fill: "#9ca3af", fontSize: 12, fontWeight: 500 }}
+                    tickFormatter={(value) => `$${value}`}
+                    dx={-10}
                   />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#7c3aed', strokeWidth: 1 }} />
                   <Line
                     type="monotone"
                     dataKey="balance"
                     stroke="#7c3aed"
                     strokeWidth={4}
-                    dot={{ fill: "#7c3aed", strokeWidth: 2, r: 6 }}
-                    activeDot={{
-                      r: 8,
-                      stroke: "#7c3aed",
-                      strokeWidth: 2,
-                      fill: "#fff",
-                    }}
+                    dot={{ fill: "#fff", stroke: "#7c3aed", strokeWidth: 3, r: 6 }}
+                    activeDot={{ r: 8, stroke: "#7c3aed", strokeWidth: 0, fill: '#7c3aed' }}
                   />
                 </LineChart>
               )}

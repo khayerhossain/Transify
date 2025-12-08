@@ -1,279 +1,97 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import axiosInstance from "../../../../lib/axiosInstance";
-import { toast } from "react-hot-toast";
-import {
-  FaBox,
-  FaTruck,
-  FaCheckCircle,
-  FaClock,
-  FaTimesCircle,
-  FaPlus,
-  FaSearch,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import React from "react";
 import ProtectedRoute from "../../../../Components/Shared/ProtectedRoute";
+import { Package, Truck, CreditCard, PlusCircle, MapPin, History } from "lucide-react";
+import Link from "next/link";
 import { useAuth } from "../../../../contexts/AuthContext";
 
-function UserDashboardInner() {
+const StatCard = ({ title, value, subtext, icon: Icon, color }) => (
+  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+    <div className="flex items-center justify-between mb-4">
+      <div className={`p-3 rounded-xl ${color} bg-opacity-10 text-opacity-100`}>
+        <Icon size={24} className={color.replace("bg-", "text-")} />
+      </div>
+      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+        {title}
+      </span>
+    </div>
+    <h3 className="text-3xl font-bold text-gray-800 mb-1">
+      {value}
+    </h3>
+    <p className="text-sm text-gray-500">{subtext}</p>
+  </div>
+);
+
+const QuickLink = ({ title, icon: Icon, href, color }) => (
+  <Link href={href} className="flex flex-col items-center justify-center p-6 bg-white border border-gray-100 rounded-2xl hover:border-red-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer text-center">
+    <div className={`p-4 rounded-full ${color} bg-opacity-10 text-opacity-100 mb-3 group-hover:scale-110 transition-transform`}>
+      <Icon size={28} className={color.replace("bg-", "text-")} />
+    </div>
+    <span className="font-semibold text-gray-700 group-hover:text-red-600 transition-colors">{title}</span>
+  </Link>
+)
+
+function UserDashboardHome() {
   const { user } = useAuth();
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({
-    total: 0,
-    pending: 0,
-    inTransit: 0,
-    delivered: 0,
-    cancelled: 0
-  });
-
-  // Fetch user's orders
-  const fetchUserOrders = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosInstance.get("/total-orders");
-      const allOrders = res?.data?.orders || [];
-      
-      // Filter orders for current user (in real app, this would be done on backend)
-      const userOrders = allOrders.filter(
-        (order) =>
-          order.senderEmail === user?.email ||
-          order.receiverEmail === user?.email
-      );
-      
-      setOrders(userOrders);
-      
-      // Calculate stats
-      const newStats = {
-        total: userOrders.length,
-        pending: userOrders.filter(o => o.status === 'pending').length,
-        inTransit: userOrders.filter(o => o.status === 'on-the-way').length,
-        delivered: userOrders.filter(o => o.status === 'delivered').length,
-        cancelled: userOrders.filter(o => o.status === 'cancelled').length
-      };
-      setStats(newStats);
-    } catch (err) {
-      toast.error("Failed to load orders");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (user?.email) {
-      fetchUserOrders();
-    }
-  }, [user]);
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'pending':
-        return <FaClock className="text-yellow-500" />;
-      case 'on-the-way':
-        return <FaTruck className="text-blue-500" />;
-      case 'delivered':
-        return <FaCheckCircle className="text-green-500" />;
-      case 'cancelled':
-        return <FaTimesCircle className="text-red-500" />;
-      default:
-        return <FaBox className="text-gray-500" />;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'pending':
-        return "bg-yellow-100 text-yellow-700";
-      case 'on-the-way':
-        return "bg-blue-100 text-blue-700";
-      case 'delivered':
-        return "bg-green-100 text-green-700";
-      case 'cancelled':
-        return "bg-red-100 text-red-700";
-      default:
-        return "bg-gray-100 text-gray-700";
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-6 mt-16 min-h-screen bg-gray-50">
+    <div className="p-8 mt-16 min-h-screen bg-gray-50/50">
+
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          Welcome back, {user?.name || user?.email}!
-        </h1>
-        <p className="text-gray-600">Manage your parcels and track deliveries</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-extrabold text-gray-900 mb-1">Welcome back, {user?.name || "User"}!</h1>
+          <p className="text-gray-500">Track your shipments and manage bookings.</p>
+        </div>
+        <Link href="/send-parcel" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-lg shadow-red-500/30 transition-all">
+          <PlusCircle size={20} />
+          Send New Parcel
+        </Link>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-500 text-sm font-medium">Total Orders</p>
-              <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
-            </div>
-            <FaBox className="text-3xl text-blue-500" />
-          </div>
-        </div>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <StatCard
+          title="Active Parcels"
+          value="3"
+          subtext="In transit"
+          icon={Truck}
+          color="bg-orange-500"
+        />
+        <StatCard
+          title="Total Sent"
+          value="24"
+          subtext="Lifetime deliveries"
+          icon={Package}
+          color="bg-blue-500"
+        />
+        <StatCard
+          title="Total Spent"
+          value="$1,240"
+          subtext="Shipping costs"
+          icon={CreditCard}
+          color="bg-green-500"
+        />
+      </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-500 text-sm font-medium">Pending</p>
-              <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
-            </div>
-            <FaClock className="text-3xl text-yellow-500" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-500 text-sm font-medium">In Transit</p>
-              <p className="text-2xl font-bold text-blue-600">{stats.inTransit}</p>
-            </div>
-            <FaTruck className="text-3xl text-blue-500" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-500 text-sm font-medium">Delivered</p>
-              <p className="text-2xl font-bold text-green-600">{stats.delivered}</p>
-            </div>
-            <FaCheckCircle className="text-3xl text-green-500" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-500 text-sm font-medium">Cancelled</p>
-              <p className="text-2xl font-bold text-red-600">{stats.cancelled}</p>
-            </div>
-            <FaTimesCircle className="text-3xl text-red-500" />
-          </div>
+      {/* Actions Grid */}
+      <div>
+        <h2 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <QuickLink title="Track Parcel" icon={MapPin} href="/track" color="bg-indigo-500" />
+          <QuickLink title="Order History" icon={History} href="/dashboard/user/history" color="bg-purple-500" />
+          <QuickLink title="Address Book" icon={MapPin} href="/dashboard/user/addresses" color="bg-teal-500" />
+          {/* Add more if needed */}
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 mb-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Quick Actions</h2>
-        <div className="flex flex-wrap gap-4">
-          <a
-            href="/send-parcel"
-            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <FaPlus />
-            Send New Parcel
-          </a>
-          <a
-            href="/coverage"
-            className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
-          >
-            <FaMapMarkerAlt />
-            Check Coverage
-          </a>
-        </div>
-      </div>
-
-      {/* Recent Orders */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-800">Recent Orders</h2>
-        </div>
-
-        {orders.length === 0 ? (
-          <div className="p-10 text-center text-gray-500">
-            <FaBox className="text-6xl text-gray-300 mx-auto mb-4" />
-            <p className="text-lg">No orders found</p>
-            <p className="text-sm">Start by sending your first parcel!</p>
-            <a
-              href="/send-parcel"
-              className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Send Parcel
-            </a>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-700">
-                <tr>
-                  <th className="px-6 py-4 text-left">Tracking ID</th>
-                  <th className="px-6 py-4 text-left">Parcel Type</th>
-                  <th className="px-6 py-4 text-left">From</th>
-                  <th className="px-6 py-4 text-left">To</th>
-                  <th className="px-6 py-4 text-left">Status</th>
-                  <th className="px-6 py-4 text-left">Date</th>
-                  <th className="px-6 py-4 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {orders.slice(0, 10).map((order) => {
-                  let created = null;
-                  if (order?.createdAt) {
-                    if (typeof order.createdAt === "string") {
-                      created = new Date(order.createdAt);
-                    } else if (order.createdAt.$date) {
-                      created = new Date(order.createdAt.$date);
-                    }
-                  }
-                  const prettyDate = created ? created.toLocaleDateString() : "-";
-
-                  return (
-                    <tr key={order._id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 font-mono text-sm">
-                        #{order._id.slice(-8).toUpperCase()}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                          {order.type || "Package"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">{order.senderName}</td>
-                      <td className="px-6 py-4">{order.receiverName}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          {getStatusIcon(order.status)}
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                            {order.status?.replace('-', ' ').toUpperCase()}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-gray-500">{prettyDate}</td>
-                      <td className="px-6 py-4 text-center">
-                        <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                          Track
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
 
 export default function UserDashboardPage() {
   return (
-    <ProtectedRoute allowedRoles={["user"]}>
-      <UserDashboardInner />
+    <ProtectedRoute allowedRoles={["user", "admin", "merchant", "rider"]}>
+      <UserDashboardHome />
     </ProtectedRoute>
   );
 }

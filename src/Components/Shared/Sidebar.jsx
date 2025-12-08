@@ -44,6 +44,7 @@ const Sidebar = ({ onClick, collapsed = false }) => {
           items: [
             { name: "All Parcels", icon: <Package size={20} />, path: "/dashboard/admin/all-parcels" },
             { name: "Users", icon: <Users size={20} />, path: "/dashboard/admin/users" },
+            { name: "Subscribers", icon: <MessageSquare size={20} />, path: "/dashboard/admin/newsletter-subscribers" },
           ]
         },
         {
