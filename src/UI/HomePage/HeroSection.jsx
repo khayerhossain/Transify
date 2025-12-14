@@ -6,7 +6,7 @@ import Container from "../../Components/Shared/Container/Container";
 export default function CourierHeroSection() {
   return (
     <section className="relative bg-gradient-to-br from-slate-50 via-white to-gray-50 overflow-hidden">
-      <Container className="min-h-screen flex items-start pt-5">
+      <Container className="min-h-screen flex items-start py-32">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start w-full">
 
           {/* Left Column - Hero Content */}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
+import dbConnect, { collectionNamesObj } from "../../../Lib/db.connect";
+import bcrypt from "bcrypt";
 
 export async function POST(request) {
   try {
@@ -29,7 +30,7 @@ export async function POST(request) {
     const insertResult = await usersCollection.insertOne({
       name,
       email,
-      password, // Note: storing plain text as per current simple flow
+      password: await bcrypt.hash(password, 10), // Hashing password
       role: "user",
       createdAt: now,
       updatedAt: now,

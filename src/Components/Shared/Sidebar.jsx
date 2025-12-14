@@ -20,7 +20,10 @@ import {
   LogOut,
   ChevronRight,
   BarChart3,
-  ShieldCheck
+  ShieldCheck,
+  Bell,
+  CreditCard,
+  Home
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -96,16 +99,21 @@ const Sidebar = ({ onClick, collapsed = false }) => {
           ]
         },
         {
-          title: "Parcel Actions",
+          title: "Parcel Management",
           items: [
             { name: "Create Parcel", icon: <PlusCircle size={20} />, path: "/dashboard/user/create-parcel" },
             { name: "Track Parcels", icon: <MapPin size={20} />, path: "/dashboard/user/track-parcel" },
+            { name: "Order History", icon: <History size={20} />, path: "/dashboard/user/history" },
           ]
         },
         {
-          title: "Settings",
+          title: "Account",
           items: [
             { name: "Profile", icon: <User size={20} />, path: "/dashboard/user/profile" },
+            { name: "Address Book", icon: <Home size={20} />, path: "/dashboard/user/addresses" },
+            { name: "Payments", icon: <CreditCard size={20} />, path: "/dashboard/user/payments" },
+            { name: "Notifications", icon: <Bell size={20} />, path: "/dashboard/user/notifications" },
+            { name: "Settings", icon: <Settings size={20} />, path: "/dashboard/user/settings" },
           ]
         }
       ];
@@ -118,7 +126,7 @@ const Sidebar = ({ onClick, collapsed = false }) => {
     <div className={`flex flex-col h-full bg-white border-r border-gray-100 transition-all duration-300 ${collapsed ? "w-20" : "w-72"}`}>
 
       {/* Brand / Logo Area (Optional) */}
-      <div className="h-16 flex items-center justify-center border-b border-gray-50">
+      {/* <div className="h-16 flex items-center justify-center border-b border-gray-50">
         {!collapsed ? (
           <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-rose-600 bg-clip-text text-transparent">
             Transify Panel
@@ -126,7 +134,7 @@ const Sidebar = ({ onClick, collapsed = false }) => {
         ) : (
           <ShieldCheck className="text-red-600" size={24} />
         )}
-      </div>
+      </div> */}
 
       {/* Menu Items */}
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-6">

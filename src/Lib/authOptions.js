@@ -1,7 +1,10 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect, { collectionNamesObj } from "./db.connect";
+import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcrypt";
 
 export const authOptions = {
+  debug: true, // Enable NextAuth debugging
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -20,8 +23,9 @@ export const authOptions = {
 
           if (!user) return null;
 
-          // For now plain text password match
-          if (password !== user.password) return null;
+          // Compare hashed password
+          const isValid = await bcrypt.compare(password, user.password);
+          if (!isValid) return null;
 
           return {
             id: user._id.toString(),
@@ -35,6 +39,10 @@ export const authOptions = {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
 
   session: {
@@ -45,6 +53,32 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
+    async signIn({ user, account }) {
+      if (account.provider === "google") {
+        try {
+          const { name, email, image } = user;
+          const usersCollection = await dbConnect(collectionNamesObj.usersCollection);
+          const existingUser = await usersCollection.findOne({ email });
+
+          if (!existingUser) {
+            await usersCollection.insertOne({
+              name,
+              email,
+              image,
+              role: "user",
+              provider: "google",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            });
+          }
+          return true;
+        } catch (error) {
+          console.error("Error checking/creating user:", error);
+          return false;
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         console.log("JWT callback - user:", user);

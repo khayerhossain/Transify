@@ -4,6 +4,7 @@ import axios from "axios";
 import Container from "../../Components/Shared/Container/Container";
 import { motion } from "framer-motion";
 import { Send, Mail, BellRing, ArrowRight } from "lucide-react";
+import axiosInstance from "../../Lib/axiosInstance";
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export default function NewsletterSection() {
     setMessage("");
 
     try {
-      const res = await axios.post("/api/newsletter", { email });
+      const res = await axiosInstance.post("/newsletter", { email });
       if (res.data?.success) {
         setMessage("Subscribed successfully!");
         setEmail("");

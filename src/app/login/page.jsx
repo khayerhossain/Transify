@@ -37,7 +37,14 @@ const LoginPage = () => {
 
   // Handle Google login
   const handleGoogleLogin = async () => {
-    await signIn("google"); // make sure Google provider is configured
+    try {
+      console.log("Attempting Google Sign In...");
+      const result = await signIn("google", { callbackUrl: "/" });
+      console.log("Google Sign In Result:", result);
+    } catch (error) {
+      console.error("Google Sign In Error:", error);
+      alert("Google Login Failed: " + error.message);
+    }
   };
 
   return (
@@ -201,7 +208,7 @@ const LoginPage = () => {
             <div className="mt-8">
               <button
                 type="button"
-                onClick={() => alert("Google login coming soon!")}
+                onClick={() => handleGoogleLogin()}
                 className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 rounded-xl bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-all duration-200"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">

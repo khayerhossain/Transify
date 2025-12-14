@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, Users, ShieldCheck } from "lucide-react";
 import { FaBoxOpen } from "react-icons/fa";
 import Link from "next/link";
-import axiosInstance from "../../lib/axiosInstance";
+import axiosInstance from "../../Lib/axiosInstance";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
@@ -55,8 +55,12 @@ const RegisterPage = () => {
   };
 
   //  Placeholder for Google Register (future integration)
-  const handleGoogleRegister = () => {
-    console.log("Google register clicked");
+  const handleGoogleRegister = async () => {
+    try {
+      await signIn("google");
+    } catch {
+      await signIn("google", { callbackUrl: "/" });
+    }
   };
 
   return (

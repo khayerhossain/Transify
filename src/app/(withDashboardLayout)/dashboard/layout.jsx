@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "../../../Components/Shared/Sidebar";
+import Link from "next/link";
 
 export default function DashboardLayout({ children }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,13 +40,13 @@ export default function DashboardLayout({ children }) {
         >
           <div className="flex items-center justify-between px-4 py-4 border-b border-red-900/40">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-red-500 text-white text-sm font-bold shadow-lg">
-                RX
-              </span>
+              <Link href="/" className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-red-500 text-white text-sm font-bold shadow-lg">
+                TF
+              </Link>
               {!collapsed && (
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold tracking-wide">
-                    Courier Panel
+                    Transify Panel
                   </span>
                   <span className="text-[11px] text-gray-300/80">
                     Smart delivery dashboard

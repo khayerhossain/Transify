@@ -1,15 +1,12 @@
 import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
 import { Mail, Calendar, Search, Filter, User } from "lucide-react";
-import dbConnect, { collectionNamesObj } from "../../../../../lib/db.connect";
+import dbConnect, { collectionNamesObj } from "../../../../../Lib/db.connect";
 
 // Server Component to fetch data
 async function getSubscribers() {
     try {
         const subscribersCollection = await dbConnect(collectionNamesObj.newslatterSubscribersCollection);
         const subscribers = await subscribersCollection.find({}).sort({ _id: -1 }).toArray();
-
-        // Serialization for Client Components if needed, but here we render directly.
-        // Converting _id to string just in case, though usually fine in server components unless passing to client.
         return subscribers.map(sub => ({
             ...sub,
             _id: sub._id.toString(),

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ProtectedRoute from "../../../../Components/Shared/ProtectedRoute";
-import { Package, Truck, CreditCard, PlusCircle, MapPin, History } from "lucide-react";
+import { Package, Truck, CreditCard, PlusCircle, MapPin, History, Bell, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "../../../../contexts/AuthContext";
 
@@ -77,10 +77,14 @@ function UserDashboardHome() {
       <div>
         <h2 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <QuickLink title="Track Parcel" icon={MapPin} href="/track" color="bg-indigo-500" />
+          <QuickLink title="Track Parcel" icon={MapPin} href="/dashboard/user/track-parcel" color="bg-indigo-500" />
           <QuickLink title="Order History" icon={History} href="/dashboard/user/history" color="bg-purple-500" />
           <QuickLink title="Address Book" icon={MapPin} href="/dashboard/user/addresses" color="bg-teal-500" />
-          {/* Add more if needed */}
+          <QuickLink title="Create Parcel" icon={PlusCircle} href="/dashboard/user/create-parcel" color="bg-orange-500" />
+          <QuickLink title="Payments" icon={CreditCard} href="/dashboard/user/payments" color="bg-green-500" />
+          <QuickLink title="Notifications" icon={Bell} href="/dashboard/user/notifications" color="bg-red-500" />
+          <QuickLink title="Settings" icon={Settings} href="/dashboard/user/settings" color="bg-gray-500" />
+          <QuickLink title="Profile" icon={User} href="/dashboard/user/profile" color="bg-blue-500" />
         </div>
       </div>
 
