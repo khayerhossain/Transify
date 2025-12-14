@@ -16,9 +16,10 @@ export default function ProtectedRoute({ allowedRoles, children }) {
       return;
     }
 
-    if (allowedRoles && !allowedRoles.includes(user.role)) {
-      router.replace("/403");
-    }
+    // Temporarily disabled role-based protection for development
+    // if (allowedRoles && !allowedRoles.includes(user.role)) {
+    //   router.replace("/403");
+    // }
   }, [user, initialized, loading, allowedRoles, router]);
 
   if (!initialized || loading || !user) {
@@ -29,9 +30,10 @@ export default function ProtectedRoute({ allowedRoles, children }) {
     );
   }
 
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return null;
-  }
+  // Temporarily disabled role-based protection for development
+  // if (allowedRoles && !allowedRoles.includes(user.role)) {
+  //   return null;
+  // }
 
   return <>{children}</>;
 }
