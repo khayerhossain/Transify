@@ -28,13 +28,13 @@ export default function Process() {
   return (
     <section className="py-16 bg-gray-50">
       <Container>
-        <div className="max-w-6xl mx-auto px-6 text-center">
+        <div className=" mx-auto text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             How Your <span className="text-red-500">Parcels Move</span>
           </h2>
           <p className="text-gray-600 mb-12">
             A simple, transparent process from order creation to on‑time COD
-            settlement — built for Bangladeshi e‑commerce merchants.
+            settlement built for Bangladeshi e‑commerce merchants.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

@@ -40,7 +40,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-rose-600 rounded-lg blur opacity-75 "></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-rose-600 rounded-lg"></div>
                 <div className="relative bg-gradient-to-r from-red-600 to-rose-600 p-2 rounded-lg">
                   <Package className="w-6 h-6 text-white" />
                 </div>

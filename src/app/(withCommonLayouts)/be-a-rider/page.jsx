@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import ApplyRidere from "../../../assets/apply-rider.png";
 import { User, Mail, Phone, Calendar, MapPin, CheckCircle, DollarSign, Clock, Shield, ChevronRight, Star } from "lucide-react";
-import axiosInstance from "../../../lib/axiosInstance";
+import axiosInstance from "../../../Lib/axiosInstance";
 import toast, { Toaster } from "react-hot-toast";
 import Container from "../../../Components/Shared/Container/Container";
 import { motion } from "framer-motion";
@@ -61,11 +61,11 @@ export default function BeARider() {
         });
         setDistricts([]);
       } else {
-        toast.error("❌ Failed to submit application.");
+        toast.error("Failed to submit application.");
       }
     } catch (error) {
       console.error(error);
-      toast.error("⚠️ Something went wrong.");
+      toast.error("Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -101,8 +101,7 @@ export default function BeARider() {
       <Toaster position="top-right" reverseOrder={false} />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-red-900 text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+      <section className="relative bg-white text-gray-900 py-20 overflow-hidden">
         <Container>
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
             <div className="md:w-1/2 space-y-6">
@@ -111,16 +110,16 @@ export default function BeARider() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <span className="inline-block py-1 px-3 rounded-full bg-red-600/20 border border-red-500/50 text-red-300 text-sm font-semibold mb-4">
+                <span className="inline-block py-1 px-3 rounded-full bg-red-100 border border-red-200 text-red-600 text-sm font-semibold mb-4">
                   Join Our Fleet
                 </span>
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                   Drive Your Way to <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">
+                  <span className="text-red-600">
                     Financial Freedom
                   </span>
                 </h1>
-                <p className="text-lg text-gray-300 max-w-xl">
+                <p className="text-lg text-gray-600 max-w-xl">
                   Become a Transify rider partner today. Enjoy flexible hours, great earnings, and be part of the fastest-growing logistics network in Bangladesh.
                 </p>
               </motion.div>
@@ -134,13 +133,13 @@ export default function BeARider() {
                 <a href="#apply-form" className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-600/30 transition-all transform hover:-translate-y-1">
                   Apply Now
                 </a>
-                <div className="flex items-center gap-2 px-6 py-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/10">
+                <div className="flex items-center gap-2 px-6 py-4 bg-gray-100 rounded-xl border border-gray-200">
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="w-8 h-8 rounded-full bg-gray-300 border-2 border-slate-800"></div>
+                      <div key={i} className="w-8 h-8 rounded-full bg-gray-300 border-2 border-white"></div>
                     ))}
                   </div>
-                  <span className="text-sm font-medium">500+ Riders Joined</span>
+                  <span className="text-sm font-medium text-gray-700">500+ Riders Joined</span>
                 </div>
               </motion.div>
             </div>
@@ -160,8 +159,6 @@ export default function BeARider() {
                   className="object-contain drop-shadow-2xl"
                 />
               </motion.div>
-              {/* Decorative blobs */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-600/20 blur-3xl rounded-full -z-10"></div>
             </div>
           </div>
         </Container>
@@ -185,7 +182,7 @@ export default function BeARider() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1 group"
               >
-                <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors duration-300">
+                <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
                   <div className="group-hover:text-white transition-colors duration-300">
                     {benefit.icon}
                   </div>
@@ -221,12 +218,12 @@ export default function BeARider() {
               </div>
             </div>
             <div className="md:w-1/2 bg-gray-50 rounded-3xl p-8 border border-gray-100 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-red-100 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 rounded-full "></div>
 
               <div className="relative z-10">
-                <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div className="bg-white rounded-2xl p-6 mb-6">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-500">
                       <DollarSign size={24} />
                     </div>
                     <div>
@@ -235,11 +232,11 @@ export default function BeARider() {
                     </div>
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full w-[75%]"></div>
+                    <div className="bg-red-500 h-2 rounded-full w-[75%]"></div>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-xl p-6 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div className="bg-white rounded-2xl shadow-xl p-6">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
                       <CheckCircle size={24} />
@@ -251,7 +248,7 @@ export default function BeARider() {
                   </div>
                   <div className="flex justify-between text-sm text-gray-500 mt-2">
                     <span>This Week</span>
-                    <span className="text-green-600 font-medium">+12%</span>
+                    <span className="text-red-500 font-medium">+12%</span>
                   </div>
                 </div>
               </div>
@@ -263,7 +260,7 @@ export default function BeARider() {
       {/* Application Form Section */}
       <section id="apply-form" className="py-20 bg-gray-50">
         <Container>
-          <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+          <div className="mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
             <div className="grid md:grid-cols-5">
               <div className="md:col-span-2 bg-slate-900 text-white p-10 flex flex-col justify-between relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
