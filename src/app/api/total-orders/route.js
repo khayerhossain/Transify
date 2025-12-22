@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 
-// 📌 GET: fetch all orders
+// GET: fetch all orders
 export async function GET() {
   try {
     const collection = await dbConnect(
@@ -19,7 +19,7 @@ export async function GET() {
   }
 }
 
-// 📌 PATCH: update order status
+//PATCH: update order status
 export async function PATCH(req) {
   try {
     const { id, status } = await req.json();

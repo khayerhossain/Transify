@@ -33,6 +33,120 @@ const Sidebar = ({ onClick, collapsed = false }) => {
 
   // Helper to structure menu items with categories
   const getMenuGroups = () => {
+    // Priority 1: Check the URL path to determine which dashboard we are in
+    if (pathname.startsWith("/dashboard/admin")) {
+      return [
+        {
+          title: "Overview",
+          items: [
+            { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/dashboard/admin" },
+            { name: "Analytics", icon: <BarChart3 size={20} />, path: "/dashboard/admin/analytics" },
+          ]
+        },
+        {
+          title: "Management",
+          items: [
+            { name: "All Parcels", icon: <Package size={20} />, path: "/dashboard/admin/all-parcels" },
+            { name: "Users", icon: <Users size={20} />, path: "/dashboard/admin/users" },
+            { name: "Subscribers", icon: <MessageSquare size={20} />, path: "/dashboard/admin/newsletter-subscribers" },
+          ]
+        },
+        {
+          title: "Rider Fleet",
+          items: [
+            { name: "Applied Riders", icon: <UserPlus size={20} />, path: "/dashboard/admin/applied-riders" },
+            { name: "Approved Riders", icon: <UserCheck size={20} />, path: "/dashboard/admin/approved-riders" },
+            { name: "Messages", icon: <MessageSquare size={20} />, path: "/dashboard/admin/riders-update" },
+          ]
+        },
+        {
+          title: "Finance & System",
+          items: [
+            { name: "Balance", icon: <Wallet size={20} />, path: "/dashboard/admin/balance" },
+            { name: "Settings", icon: <Settings size={20} />, path: "/dashboard/admin/settings" },
+          ]
+        }
+      ];
+    }
+
+    if (pathname.startsWith("/dashboard/rider")) {
+      return [
+        {
+          title: "Overview",
+          items: [
+            { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/dashboard/rider" },
+          ]
+        },
+        {
+          title: "Delivery Work",
+          items: [
+            { name: "Assigned Parcels", icon: <Package size={20} />, path: "/dashboard/rider/assigned" },
+            { name: "Update Status", icon: <Truck size={20} />, path: "/dashboard/rider/update-status" },
+          ]
+        },
+        {
+          title: "Account",
+          items: [
+            { name: "History", icon: <History size={20} />, path: "/dashboard/rider/history" },
+            { name: "Support", icon: <Headphones size={20} />, path: "/dashboard/rider/support" },
+          ]
+        }
+      ];
+    }
+
+    if (pathname.startsWith("/dashboard/user")) {
+      return [
+        {
+          title: "Overview",
+          items: [
+            { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/dashboard/user" },
+          ]
+        },
+        {
+          title: "Parcel Management",
+          items: [
+            { name: "Create Parcel", icon: <PlusCircle size={20} />, path: "/dashboard/user/create-parcel" },
+            { name: "Track Parcels", icon: <MapPin size={20} />, path: "/dashboard/user/track-parcel" },
+            { name: "Order History", icon: <History size={20} />, path: "/dashboard/user/history" },
+          ]
+        },
+        {
+          title: "Account",
+          items: [
+            { name: "Profile", icon: <User size={20} />, path: "/dashboard/user/profile" },
+            { name: "Address Book", icon: <Home size={20} />, path: "/dashboard/user/addresses" },
+            { name: "Payments", icon: <CreditCard size={20} />, path: "/dashboard/user/payments" },
+            { name: "Notifications", icon: <Bell size={20} />, path: "/dashboard/user/notifications" },
+            { name: "Settings", icon: <Settings size={20} />, path: "/dashboard/user/settings" },
+          ]
+        }
+      ];
+    }
+
+    if (pathname.startsWith("/dashboard/merchant")) {
+      return [
+        {
+          title: "Overview",
+          items: [
+            { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/dashboard/merchant" },
+          ]
+        },
+        {
+          title: "Parcel Management",
+          items: [
+            { name: "All Parcels", icon: <Package size={20} />, path: "/dashboard/merchant/parcels" },
+          ]
+        },
+        {
+          title: "Account",
+          items: [
+            { name: "Settings", icon: <Settings size={20} />, path: "/dashboard/merchant/settings" },
+          ]
+        }
+      ];
+    }
+
+    // Priority 2: Fallback to user role if pathname doesn't match specific dashboards
     if (user?.role === "admin") {
       return [
         {
@@ -90,7 +204,7 @@ const Sidebar = ({ onClick, collapsed = false }) => {
         }
       ];
     } else {
-      // Default user
+      // Default user set
       return [
         {
           title: "Overview",

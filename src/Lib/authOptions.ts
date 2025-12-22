@@ -2,8 +2,34 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect, { collectionNamesObj } from "./db.connect";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
+import type { AuthOptions } from "next-auth";
+import type { JWT } from "next-auth/jwt";
+import type { Session } from "next-auth";
 
-export const authOptions = {
+declare module "next-auth" {
+  interface User {
+    role?: string;
+  }
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      role?: string;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    role?: string;
+  }
+}
+
+export const authOptions: AuthOptions = {
   debug: true, // Enable NextAuth debugging
   providers: [
     CredentialsProvider({

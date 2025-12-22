@@ -1,11 +1,20 @@
-// Commit: add POST and GET API routes for booking parcels
 import { NextResponse } from "next/server";
 import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/Lib/authOptions";
 
 // POST → insert new parcel booking
 export async function POST(req) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user?.email) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const collection = await dbConnect(
       collectionNamesObj.bookingParcelsCollection
@@ -15,6 +24,7 @@ export async function POST(req) {
     const now = new Date();
     const parcelData = {
       ...body,
+      userEmail: session.user.email,
       createdAt: now,
       date: now.getDate(),
       month: now.getMonth() + 1,
