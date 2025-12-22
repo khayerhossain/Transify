@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { FaSearch, FaTruck, FaCheckCircle, FaClock, FaTimesCircle, FaMapMarkerAlt } from "react-icons/fa";
-import axiosInstance from "../../../../../lib/axiosInstance";
+import axiosInstance from "@/Lib/axiosInstance.js";
 import { toast } from "react-hot-toast";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 
 function TrackParcelInner() {
   const [trackingId, setTrackingId] = useState("");

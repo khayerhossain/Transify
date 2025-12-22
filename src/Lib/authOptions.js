@@ -40,8 +40,8 @@ export const authOptions = {
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID || process.env.CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || process.env.CLIENT_SECRET,
     }),
   ],
 

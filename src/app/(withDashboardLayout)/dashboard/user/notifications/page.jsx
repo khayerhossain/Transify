@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Bell, Package, Megaphone, CheckCircle, Trash2 } from "lucide-react";
 
 // Mock notifications

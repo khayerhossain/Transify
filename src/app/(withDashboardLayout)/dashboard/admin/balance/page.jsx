@@ -11,7 +11,7 @@ import {
   AreaChart,
   Area,
 } from "recharts";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { DollarSign, TrendingUp, TrendingDown, Package, CreditCard, PieChart } from "lucide-react";
 
 function BalanceInner() {

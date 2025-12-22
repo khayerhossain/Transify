@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Rider from "../../assets/become-a-rider.jpeg";
+// import Rider from "@/assets/become-a-rider.jpeg";
 import Container from "../../Components/Shared/Container/Container";
 
 export default function BecomeDeliveryMan() {
@@ -42,7 +42,7 @@ export default function BecomeDeliveryMan() {
           {/* Right Image */}
           <div className="md:w-1/2 flex justify-center items-center h-full bg-red-50">
             <Image
-              src={Rider}
+              src="/hero-person-1.png"
               alt="Delivery Person"
               width={320}
               height={230}

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import axiosInstance from "../../../../../lib/axiosInstance";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import axiosInstance from "@/Lib/axiosInstance.js";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { FaHeadset, FaPaperPlane } from "react-icons/fa";
 
 function SupportInner() {

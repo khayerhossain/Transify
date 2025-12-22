@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ProtectedRoute from "../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Users, Package, TrendingUp, UserCheck, Settings, FileText } from "lucide-react";
 import Link from "next/link";
 

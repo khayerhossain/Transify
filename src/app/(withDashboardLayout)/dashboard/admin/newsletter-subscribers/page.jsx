@@ -1,6 +1,6 @@
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Mail, Calendar, Search, Filter, User } from "lucide-react";
-import dbConnect, { collectionNamesObj } from "../../../../../Lib/db.connect";
+import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 
 // Server Component to fetch data
 async function getSubscribers() {

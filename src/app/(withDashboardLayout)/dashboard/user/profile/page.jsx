@@ -1,6 +1,6 @@
 "use client";
 
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { useAuth } from "../../../../../contexts/AuthContext";
 
 function UserProfileInner() {

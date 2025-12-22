@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Search, MapPin, CheckCircle2, Package, Clock, TrendingUp } from 'lucide-react';
-import Container from '../../../Components/Shared/Container/Container';
+import Container from "../../../Components/Shared/Container/Container.jsx";
 import Image from 'next/image';
 
 const CoveragePage = () => {

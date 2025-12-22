@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Settings, Bell, Lock, Globe, Moon, Save } from "lucide-react";
 
 function SettingsPage() {

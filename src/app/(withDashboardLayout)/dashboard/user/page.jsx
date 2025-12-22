@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ProtectedRoute from "../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Package, Truck, CreditCard, PlusCircle, MapPin, History, Bell, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "../../../../contexts/AuthContext";

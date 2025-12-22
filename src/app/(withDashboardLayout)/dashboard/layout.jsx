@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
-import Sidebar from "../../../Components/Shared/Sidebar";
+import Sidebar from "@/Components/Shared/Sidebar";
 import Link from "next/link";
 
 export default function DashboardLayout({ children }) {

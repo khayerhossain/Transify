@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ProtectedRoute from "../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Bike, CheckCircle, Map, DollarSign, List, Bell } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "../../../../contexts/AuthContext";

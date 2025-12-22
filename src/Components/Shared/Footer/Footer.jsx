@@ -1,6 +1,7 @@
 "use client";
 import { Facebook, Twitter, Instagram, Linkedin, ArrowUp, Mail, CreditCard, DollarSign, Smartphone } from "lucide-react";
-import Container from "../Container/Container";
+import { FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
+import Container from "@/Components/Shared/Container/Container";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -108,23 +109,23 @@ export default function Footer() {
               <h3 className="text-lg font-bold text-white mb-6 border-b-2 border-red-500 inline-block pb-1">
                 We Accept
               </h3>
-              <div className="flex gap-4 flex-wrap">
+              <div className="grid grid-cols-2 gap-4">
                 {[
                   {
                     name: "Visa",
-                    icon: CreditCard,
+                    icon: FaCcVisa,
                     bg: "bg-blue-600",
-                    text: "**** 1234"
+                    text: "Visa"
                   },
                   {
                     name: "Mastercard",
-                    icon: CreditCard,
+                    icon: FaCcMastercard,
                     bg: "bg-red-600",
-                    text: "**** 5678"
+                    text: "Mastercard"
                   },
                   {
                     name: "PayPal",
-                    icon: DollarSign,
+                    icon: FaCcPaypal,
                     bg: "bg-blue-500",
                     text: "PayPal"
                   },
@@ -137,10 +138,10 @@ export default function Footer() {
                 ].map((payment, index) => (
                   <div
                     key={index}
-                    className={`relative ${payment.bg} p-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 w-20 h-12 flex items-center justify-between hover:scale-105 cursor-pointer`}
+                    className={`relative ${payment.bg} p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-16 flex items-center justify-center hover:scale-105 cursor-pointer`}
                   >
-                    <payment.icon className="h-6 w-6 text-white" />
-                    <span className="text-xs text-white font-mono">{payment.text}</span>
+                    <payment.icon className="h-8 w-8 text-white" />
+                    <span className="text-sm text-white font-semibold ml-2">{payment.text}</span>
                   </div>
                 ))}
               </div>

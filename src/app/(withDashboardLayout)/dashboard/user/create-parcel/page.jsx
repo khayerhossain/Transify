@@ -1,7 +1,7 @@
 "use client";
 
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
-import SendParcelPage from "../../../../(withCommonLayouts)/send-parcel/page";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
+import SendParcelPage from "../../../../(withCommonLayouts)/send-parcel/page.jsx";
 
 export default function UserCreateParcelPage() {
   return (

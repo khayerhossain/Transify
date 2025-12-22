@@ -4,7 +4,7 @@ import axios from "axios";
 import Container from "../../Components/Shared/Container/Container";
 import { motion } from "framer-motion";
 import { Send, Mail, BellRing, ArrowRight } from "lucide-react";
-import axiosInstance from "../../Lib/axiosInstance";
+import axiosInstance from "../../Lib/axiosInstance.js";
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("");

@@ -1,4 +1,4 @@
-import dbConnect, { collectionNamesObj } from "../../../Lib/db.connect";
+import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 
 export async function POST(req) {
   try {

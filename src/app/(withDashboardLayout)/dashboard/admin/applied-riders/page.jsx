@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import axiosInstance from "../../../../../lib/axiosInstance";
+import axiosInstance from "../../../../../Lib/axiosInstance.js";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";

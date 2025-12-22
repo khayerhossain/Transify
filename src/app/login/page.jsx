@@ -38,9 +38,7 @@ const LoginPage = () => {
   // Handle Google login
   const handleGoogleLogin = async () => {
     try {
-      console.log("Attempting Google Sign In...");
-      const result = await signIn("google", { callbackUrl: "/" });
-      console.log("Google Sign In Result:", result);
+      await signIn("google", { callbackUrl: "/?login=google-success" });
     } catch (error) {
       console.error("Google Sign In Error:", error);
       alert("Google Login Failed: " + error.message);

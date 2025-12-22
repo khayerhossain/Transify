@@ -1,6 +1,6 @@
 "use client";
 
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Settings, Bell, Shield, Globe, CreditCard, ChevronRight, User, Lock, Smartphone } from "lucide-react";
 
 function AdminSettingsInner() {

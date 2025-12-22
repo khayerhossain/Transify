@@ -1,5 +1,5 @@
 "use client";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { User, Shield, MoreVertical, Search, Filter, Mail } from "lucide-react";
 import { useState } from "react";
 

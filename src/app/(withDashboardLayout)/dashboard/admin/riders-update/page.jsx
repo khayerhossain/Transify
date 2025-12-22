@@ -1,8 +1,8 @@
 "use client";
-import axiosInstance from "../../../../../lib/axiosInstance";
+import axiosInstance from "@/Lib/axiosInstance.js";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { MessageSquare, Mail, User, Clock, Search, Filter } from "lucide-react";
 
 function RidersUpdateInner() {

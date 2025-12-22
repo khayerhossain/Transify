@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { Package, Search, Filter, ChevronRight, Truck, CheckCircle, Clock, XCircle } from "lucide-react";
 import Link from "next/link";
 

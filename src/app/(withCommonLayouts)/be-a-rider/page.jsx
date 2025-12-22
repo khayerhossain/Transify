@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import ApplyRidere from "../../../assets/apply-rider.png";
+// import ApplyRidere from "@/assets/apply-rider.png";
 import { User, Mail, Phone, Calendar, MapPin, CheckCircle, DollarSign, Clock, Shield, ChevronRight, Star } from "lucide-react";
-import axiosInstance from "../../../Lib/axiosInstance";
+import axiosInstance from "@/Lib/axiosInstance.js";
 import toast, { Toaster } from "react-hot-toast";
-import Container from "../../../Components/Shared/Container/Container";
+import Container from "../../../Components/Shared/Container/Container.jsx";
 import { motion } from "framer-motion";
 
 export default function BeARider() {
@@ -152,7 +152,7 @@ export default function BeARider() {
                 className="relative z-10"
               >
                 <Image
-                  src={ApplyRidere}
+                  src="/hero-illustration.png"
                   alt="Delivery Rider"
                   width={500}
                   height={500}

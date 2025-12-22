@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { CreditCard, Plus, Trash2, Star } from "lucide-react";
 
 // Mock data

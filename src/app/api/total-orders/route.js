@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
+import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 
 // 📌 GET: fetch all orders
 export async function GET() {

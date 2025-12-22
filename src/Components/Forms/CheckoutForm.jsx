@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axiosInstance from "../../Lib/axiosInstance";
+import axiosInstance from "../../Lib/axiosInstance.js";
 import toast from "react-hot-toast";
 
 export default function CheckoutForm({ formData, bookingId, onSuccess }) {

@@ -1,5 +1,5 @@
 // app/dashboard/page.jsx (example)
-import { authOptions } from "../../../lib/authOptions";
+import { authOptions } from "@/Lib/authOptions.js";
 import { getServerSession } from "next-auth";
 
 export default async function DashboardHomePage() {

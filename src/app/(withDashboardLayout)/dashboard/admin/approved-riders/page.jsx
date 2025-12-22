@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import axiosInstance from "../../../../../lib/axiosInstance";
+import axiosInstance from "@/Lib/axiosInstance.js";
 import { toast } from "react-hot-toast";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { User, CheckCircle, XCircle, Search, Filter, ShieldCheck, Phone, Calendar, MoreVertical } from "lucide-react";
 
 function ApprovedRidersInner() {

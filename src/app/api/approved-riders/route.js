@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
+import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 
 // GET → fetch only approved riders
 export async function GET() {

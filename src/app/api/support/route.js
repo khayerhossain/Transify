@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect, { collectionNamesObj } from "../../../lib/db.connect";
+import dbConnect, { collectionNamesObj } from "@/Lib/db.connect.js";
 
 // POST: Rider sends message
 export async function POST(req) {

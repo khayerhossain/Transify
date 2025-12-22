@@ -1,7 +1,7 @@
 "use client";
 
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
-import axiosInstance from "../../../../../lib/axiosInstance";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
+import axiosInstance from "@/Lib/axiosInstance.js";
 import { useEffect, useState } from "react";
 import { FaTruck, FaCheckCircle } from "react-icons/fa";
 

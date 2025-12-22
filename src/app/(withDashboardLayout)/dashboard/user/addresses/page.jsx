@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ProtectedRoute from "../../../../../Components/Shared/ProtectedRoute";
+import ProtectedRoute from "@/Components/Shared/ProtectedRoute";
 import { MapPin, Plus, Edit, Trash2, Star } from "lucide-react";
 
 // Mock data
