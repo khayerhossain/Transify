@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "@/Components/Shared/Sidebar";
+import Topbar from "@/Components/Shared/Topbar";
 import Link from "next/link";
 
 export default function DashboardLayout({ children }) {
@@ -67,7 +68,7 @@ export default function DashboardLayout({ children }) {
         </motion.aside>
 
         {/* Main Content */}
-        <div className="flex-1 md:ml-4">
+        <div className="flex-1">
           {/* Mobile top bar */}
           <div className="md:hidden sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-gray-100 flex items-center justify-between px-4 py-3 shadow-sm">
             <div className="flex items-center gap-2">
@@ -80,6 +81,12 @@ export default function DashboardLayout({ children }) {
               <span className="font-semibold text-gray-800">Dashboard</span>
             </div>
           </div>
+          
+          {/* Desktop Topbar */}
+          <div className="hidden md:block">
+            <Topbar />
+          </div>
+          
           <div className="w-full">{children}</div>
         </div>
       </div>
