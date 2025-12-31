@@ -1,12 +1,32 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi2";
-import { BsGrid3X3Gap } from "react-icons/bs";
+import { BsGrid3X3Gap, BsClock } from "react-icons/bs";
 
 export default function Topbar() {
   const { data: session } = useSession();
+  const [currentTime, setCurrentTime] = useState("");
+  
+  useEffect(() => {
+    // Update time immediately
+    const updateTime = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const displayHours = hours % 12 || 12;
+      setCurrentTime(`${displayHours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`);
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
   
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -32,11 +52,17 @@ export default function Topbar() {
   return (
     <div className="sticky top-0 z-30 bg-black shadow-lg">
       <div className="flex items-center justify-between px-6 py-2.5">
-        {/* Left Section - Greeting */}
+        {/* Left Section - Greeting & Time */}
         <div className="flex items-center gap-4">
           <div className="hidden sm:block">
             <h2 className="text-base font-semibold text-white">{getGreeting()}!</h2>
             <p className="text-xs text-gray-400">Welcome back to your dashboard</p>
+          </div>
+          
+          {/* Real-time Clock */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10">
+            <BsClock className="text-gray-400 text-sm" />
+            <span className="text-sm font-medium text-white">{currentTime}</span>
           </div>
         </div>
 
@@ -79,4 +105,3 @@ export default function Topbar() {
     </div>
   );
 }
-

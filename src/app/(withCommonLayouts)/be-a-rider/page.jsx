@@ -104,16 +104,33 @@ export default function BeARider() {
       <section className="relative bg-white text-gray-900 py-20 overflow-hidden">
         <Container>
           <div className="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+            <div className="md:w-1/2 relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7 }}
+                className="relative z-10"
+              >
+                <Image
+                  src="/rider-hero-user.png"
+                  alt="Delivery Rider"
+                  width={600}
+                  height={600}
+                  className="object-contain"
+                />
+              </motion.div>
+            </div>
+
             <div className="md:w-1/2 space-y-6">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 <span className="inline-block py-1 px-3 rounded-full bg-red-100 border border-red-200 text-red-600 text-sm font-semibold mb-4">
                   Join Our Fleet
                 </span>
-                <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight text-gray-900">
                   Drive Your Way to <br />
                   <span className="text-red-600">
                     Financial Freedom
@@ -125,8 +142,8 @@ export default function BeARider() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex flex-wrap gap-4"
               >
@@ -141,23 +158,6 @@ export default function BeARider() {
                   </div>
                   <span className="text-sm font-medium text-gray-700">500+ Riders Joined</span>
                 </div>
-              </motion.div>
-            </div>
-
-            <div className="md:w-1/2 relative">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7 }}
-                className="relative z-10"
-              >
-                <Image
-                  src="/hero-illustration.png"
-                  alt="Delivery Rider"
-                  width={500}
-                  height={500}
-                  className="object-contain drop-shadow-2xl"
-                />
               </motion.div>
             </div>
           </div>

@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-// import Rider from "@/assets/become-a-rider.jpeg";
 import Container from "../../Components/Shared/Container/Container";
 
 export default function BecomeDeliveryMan() {
   return (
     <section className="bg-red-50/60 py-16">
       <Container>
-        <div className="flex flex-col-reverse md:flex-row items-center justify-between bg-white rounded-3xl shadow-2xl overflow-hidden border border-red-100">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Left Content */}
           <div className="md:w-1/2 p-10 flex flex-col justify-center h-full space-y-4">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 w-max">
@@ -40,9 +39,9 @@ export default function BecomeDeliveryMan() {
           </div>
 
           {/* Right Image */}
-          <div className="md:w-1/2 flex justify-center items-center h-full bg-red-50">
+          <div className="md:w-1/2 flex justify-center items-center h-full">
             <Image
-              src="/hero-person-1.png"
+              src="https://i.ibb.co.com/gLt94X4v/Screenshot-2025-12-31-at-7-12-20-PM.png"
               alt="Delivery Person"
               width={320}
               height={230}
