@@ -3,6 +3,7 @@ import "./globals.css";
 import SessionProvider from "../Providers/SessionProvider";
 import { Toaster } from "react-hot-toast";
 import AuthFeedback from "@/Components/Shared/AuthFeedback";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({ children }) {
           <div className="min-h-screen">{children}</div>
 
           <Toaster position="top-right" reverseOrder={false} />
-          <AuthFeedback />
+          <Suspense fallback={null}>
+            <AuthFeedback />
+          </Suspense>
         </body>
       </SessionProvider>
     </html>
